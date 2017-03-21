@@ -23,6 +23,11 @@
         </activity>
         <activity android:name=".SettingsActivity">
         </activity>
+        <provider
+            android:authorities="com.travelexperts.travelpackages"
+            android:name="com.travelexperts.travelpackages.data.PackagesProvider"
+            android:exported="false"
+            />
     </application>
 
 </manifest>
