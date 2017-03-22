@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.travelexperts.travelpackages">
+    package="com.travelexperts.travelpackages">
 
     <application
         android:allowBackup="true"
@@ -10,24 +10,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".PackagesActivity"
-            android:label="@string/title_activity_packages"
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AccountActivity">
-        </activity>
-        <activity android:name=".SettingsActivity">
-        </activity>
+        <activity android:name=".AccountActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
+
         <provider
+            android:name=".data.PackagesProvider"
             android:authorities="com.travelexperts.travelpackages"
-            android:name="com.travelexperts.travelpackages.data.PackagesProvider"
-            android:exported="false"
-            />
+            android:exported="false" />
+
+        <activity
+            android:name=".CustomerActivity"
+            android:label="@string/title_activity_customer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
