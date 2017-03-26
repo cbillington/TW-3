@@ -1,6 +1,7 @@
 package com.travelexperts.travelpackages;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,7 @@ import com.travelexperts.travelpackages.fragments.all_tab;
  * Created by 744095 on 3/22/2017.
  */
 
-public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+/*public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
    Context context;
    String[] items;
     public Adapter(Context context, String[]items){
@@ -44,4 +45,4 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             textView= (TextView) itemView.findViewById(R.id.item);
         }
     }
-}
+}*/
