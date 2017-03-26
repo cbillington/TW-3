@@ -19,5 +19,6 @@ public class new_tab extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.new_tab, container, false);
         return rootView;
+
     }
 }

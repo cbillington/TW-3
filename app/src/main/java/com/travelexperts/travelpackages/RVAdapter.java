@@ -1,48 +1,65 @@
 package com.travelexperts.travelpackages;
 
-import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.travelexperts.travelpackages.fragments.all_tab;
+import com.travelexperts.travelpackages.data.TempPackage;
+
+import java.util.List;
 
 /**
  * Created by 744095 on 3/22/2017.
  */
 
-/*public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-   Context context;
-   String[] items;
-    public Adapter(Context context, String[]items){
-        this.items=items;
-        this.context = context;
+public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TempPackageViewHolder> {
+    List<TempPackage> tempPackages;
+    RVAdapter(List < TempPackage > tempPackages){
+        this.tempPackages = tempPackages;
+    }
+
+    public class TempPackageViewHolder extends RecyclerView.ViewHolder {
+        CardView cv;
+        TextView packageName;
+        TextView description;
+        ImageView photoId;
+
+        TempPackageViewHolder(View itemView) {
+            super(itemView);
+            cv = (CardView) itemView.findViewById(R.id.cvAllTab);
+            packageName = (TextView) itemView.findViewById(R.id.tvName);
+            description = (TextView) itemView.findViewById(R.id.tvDesc);
+            photoId = (ImageView) itemView.findViewById(R.id.ivPhoto);
+
+
+        }
     }
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View all = inflater.inflate(R.layout.all_tab, parent, false);
-        Item item = new Item(all);
-        return item;
+    public TempPackageViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(ViewGroup.getContext()).inflate(R.layout.all_tab, viewGroup, false);
+        TempPackageViewHolder tpvh = new TempPackageViewHolder(v);
+        return tpvh;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((Item)holder).textView.setText(items[position]);
+    public void onBindViewHolder(TempPackageViewHolder tempPackageViewHolder, int i) {
+
+        tempPackageViewHolder.packageName.setText(tempPackages.get(i).packagename);
+        tempPackageViewHolder.description.setText(tempPackages.get(i).description);
+        tempPackageViewHolder.photoId.setImageResource(tempPackages.get(i).photoId);
     }
 
     @Override
     public int getItemCount() {
-        return items.length;
+        return tempPackages.size();
     }
-    public class Item extends RecyclerView.ViewHolder {
-        TextView textView;
-        public Item(View itemView) {
-            super(itemView);
-            textView= (TextView) itemView.findViewById(R.id.item);
-        }
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
-}*/
+}
+
