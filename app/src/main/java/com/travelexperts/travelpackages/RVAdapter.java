@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.travelexperts.travelpackages.data.TempPackage;
+import com.travelexperts.travelpackages.data.getTempPackage;
 
 import java.util.List;
 
@@ -17,30 +17,30 @@ import java.util.List;
  */
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TempPackageViewHolder> {
-    List<TempPackage> tempPackages;
-    RVAdapter(List < TempPackage > tempPackages){
-        this.tempPackages = tempPackages;
+    List<getTempPackage> getTempPackages;
+    public RVAdapter(List <getTempPackage> getTempPackages){
+        this.getTempPackages = getTempPackages;
     }
 
     public class TempPackageViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
-        TextView packageName;
-        TextView description;
-        ImageView photoId;
+        TextView tvpackageName;
+        TextView tvdescription;
+        ImageView ivphotoId;
 
         TempPackageViewHolder(View itemView) {
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.cvAllTab);
-            packageName = (TextView) itemView.findViewById(R.id.tvName);
-            description = (TextView) itemView.findViewById(R.id.tvDesc);
-            photoId = (ImageView) itemView.findViewById(R.id.ivPhoto);
+            tvpackageName = (TextView) itemView.findViewById(R.id.tvName);
+            tvdescription = (TextView) itemView.findViewById(R.id.tvDesc);
+            ivphotoId = (ImageView) itemView.findViewById(R.id.ivPhoto);
 
 
         }
     }
     @Override
-    public TempPackageViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(ViewGroup.getContext()).inflate(R.layout.all_tab, viewGroup, false);
+    public TempPackageViewHolder onCreateViewHolder (ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.all_tab, viewGroup, false);
         TempPackageViewHolder tpvh = new TempPackageViewHolder(v);
         return tpvh;
     }
@@ -48,14 +48,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TempPackageViewHol
     @Override
     public void onBindViewHolder(TempPackageViewHolder tempPackageViewHolder, int i) {
 
-        tempPackageViewHolder.packageName.setText(tempPackages.get(i).packagename);
-        tempPackageViewHolder.description.setText(tempPackages.get(i).description);
-        tempPackageViewHolder.photoId.setImageResource(tempPackages.get(i).photoId);
+        tempPackageViewHolder.tvpackageName.setText(getTempPackages.get(i).packagename);
+        tempPackageViewHolder.tvdescription.setText(getTempPackages.get(i).description);
+        tempPackageViewHolder.ivphotoId.setImageResource(getTempPackages.get(i).photoId);
     }
 
     @Override
     public int getItemCount() {
-        return tempPackages.size();
+        return getTempPackages.size();
     }
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {

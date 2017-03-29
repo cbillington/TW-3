@@ -1,9 +1,9 @@
 package com.travelexperts.travelpackages.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 
 import com.travelexperts.travelpackages.R;
 import com.travelexperts.travelpackages.RVAdapter;
-import com.travelexperts.travelpackages.data.TempPackage;
+import com.travelexperts.travelpackages.data.getTempPackage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -25,27 +28,27 @@ public class all_tab extends Fragment {
     private RecyclerView.LayoutManager rvLayoutManager;
 
 
-    @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState, Activity activity) {
         View rootView = inflater.inflate(R.layout.all_tab, container, false);
 
         //recyclerview
         rvAllTab = (RecyclerView) rootView.findViewById(R.id.rvAllTab);
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        rvAllTab.setLayoutManager(llm);
+        //LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        //rvAllTab.setLayoutManager(llm);
 
 
-        RVAdapter adapter = new RVAdapter(TempPackage);
+       // public List<getTempPackage> initializeData() {
+            List<getTempPackage> temppackages;
+            temppackages = new ArrayList<>();
+            temppackages.add(new getTempPackage("Caribbean cruise", "Enjoy a cruise to the Carribean", R.drawable.caribbean));
+            temppackages.add(new getTempPackage("American Getaway", "Travel anywhere in north america", R.drawable.demo));
+            temppackages.add(new getTempPackage("Island Paradise", "Enjoy a getaway to an Paradise", R.drawable.island));
+        //    return temppackages;
+       // }
+        RVAdapter adapter = new RVAdapter(temppackages);
         rvAllTab.setAdapter(adapter);
-
-
-        /*rvAllTab.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvAllTab.setHasFixedSize(true);
-        rvAllTab.setAdapter(new Adapter(getContext(), items));*/
-
-        //CardView
-
 
         return rootView;
     }
