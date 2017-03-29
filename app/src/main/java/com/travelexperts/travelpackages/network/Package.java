@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "pkgBasePrice",
         "pkgAgencyCommission"
 })
-public class Item {
+public class Package {
 
     @JsonProperty("packageId")
     private Integer packageId;
@@ -120,7 +120,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
+        return "Package{" +
                 "packageId=" + packageId +
                 ", pkgName='" + pkgName + '\'' +
                 ", pkgStartDate=" + pkgStartDate +

@@ -14,20 +14,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
         "items"
 })
-public class PackagesJSON {
+public class PackagesWrapper {
 
     @JsonProperty("items")
-    private List<Item> items = null;
+    private List<Package> items = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("items")
-    public List<Item> getItems() {
+    public List<Package> getItems() {
         return items;
     }
 
     @JsonProperty("items")
-    public void setItems(List<Item> items) {
+    public void setItems(List<Package> items) {
         this.items = items;
     }
 

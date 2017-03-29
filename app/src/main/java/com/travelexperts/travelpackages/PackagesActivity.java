@@ -13,10 +13,16 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.travelexperts.travelpackages.network.Item;
+import com.travelexperts.travelpackages.network.CallbackUtils;
+import com.travelexperts.travelpackages.network.Package;
 import com.travelexperts.travelpackages.network.JacksonConverterFactory;
-import com.travelexperts.travelpackages.network.IPackageEndpoint;
-import com.travelexperts.travelpackages.network.PackagesJSON;
+import com.travelexperts.travelpackages.network.IRestEndpoint;
+import com.travelexperts.travelpackages.network.PackagesWrapper;
+import com.travelexperts.travelpackages.network.IRestCallback;
+import com.travelexperts.travelpackages.network.RestClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,7 +30,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class PackagesActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, IRestCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,31 +51,29 @@ public class PackagesActivity extends AppCompatActivity
         TextView packagesJsonTextView = (TextView)findViewById(R.id.tv_packages_json);
 
 
-        ObjectMapper objMapper = new ObjectMapper();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http:10.0.2.2:8080/api/")
-                .addConverterFactory(new JacksonConverterFactory(objMapper))
-                .build();
 
-        IPackageEndpoint packageApi = retrofit.create(IPackageEndpoint.class);
+        
+        RestClient restClient = new RestClient();
 
-        Call<PackagesJSON> packagesCall = packageApi.getPackages();
 
-        packagesCall.enqueue(new Callback<PackagesJSON>() {
+
+        final List<Package> packages = new ArrayList<>();
+
+        IRestCallback packagesCallback = new IRestCallback() {
             @Override
-            public void onResponse(Call<PackagesJSON> call, Response<PackagesJSON> response) {
-                PackagesJSON packagesWrapper = response.body();
+            public void onSuccess(Response response) {
 
-                for(Item pkg: packagesWrapper.getItems()){
-                    Log.d("hi", pkg.toString());
+                PackagesWrapper pw = (PackagesWrapper) response.body();
+                for(Package pkg:pw.getItems()){
+                    Log.d("hello", pkg.toString());
                 }
-            }
 
-            @Override
-            public void onFailure(Call<PackagesJSON> call, Throwable t) {
-                Log.d("hello", t.getMessage());
             }
-        });
+        };
+
+        CallbackUtils.requestPackagesFromCall(restClient.getApiService().getPackages(), packagesCallback);
+
+
 
 
 
@@ -133,5 +137,10 @@ public class PackagesActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onSuccess(Response response) {
+
     }
 }
