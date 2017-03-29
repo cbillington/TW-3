@@ -22,6 +22,7 @@ public class PackagesContract {
 
     // path to packages resource (db table)
     public static final String PATH_PACKAGES = "packages";
+
     /**
      *
      * inner class to represent the Travel Experts packages table.
