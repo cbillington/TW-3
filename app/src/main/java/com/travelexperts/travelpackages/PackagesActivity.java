@@ -15,10 +15,8 @@ import android.widget.TextView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.travelexperts.travelpackages.network.Item;
 import com.travelexperts.travelpackages.network.JacksonConverterFactory;
-import com.travelexperts.travelpackages.network.PackageApiEndpointInterface;
+import com.travelexperts.travelpackages.network.IPackageEndpoint;
 import com.travelexperts.travelpackages.network.PackagesJSON;
-
-import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,7 +51,7 @@ public class PackagesActivity extends AppCompatActivity
                 .addConverterFactory(new JacksonConverterFactory(objMapper))
                 .build();
 
-        PackageApiEndpointInterface packageApi = retrofit.create(PackageApiEndpointInterface.class);
+        IPackageEndpoint packageApi = retrofit.create(IPackageEndpoint.class);
 
         Call<PackagesJSON> packagesCall = packageApi.getPackages();
 
