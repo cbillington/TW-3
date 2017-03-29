@@ -9,4 +9,9 @@
     tools:context="com.travelexperts.travelpackages.PackagesActivity"
     tools:showIn="@layout/app_bar_packages">
 
+    <TextView
+        android:id="@+id/tv_packages_json"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </android.support.constraint.ConstraintLayout>

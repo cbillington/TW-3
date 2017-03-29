@@ -1,17 +1,29 @@
 package com.travelexperts.travelpackages;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.travelexperts.travelpackages.network.Item;
+import com.travelexperts.travelpackages.network.JacksonConverterFactory;
+import com.travelexperts.travelpackages.network.PackageApiEndpointInterface;
+import com.travelexperts.travelpackages.network.PackagesJSON;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class PackagesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,6 +43,41 @@ public class PackagesActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        TextView packagesJsonTextView = (TextView)findViewById(R.id.tv_packages_json);
+
+
+        ObjectMapper objMapper = new ObjectMapper();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http:10.0.2.2:8080/api/")
+                .addConverterFactory(new JacksonConverterFactory(objMapper))
+                .build();
+
+        PackageApiEndpointInterface packageApi = retrofit.create(PackageApiEndpointInterface.class);
+
+        Call<PackagesJSON> packagesCall = packageApi.getPackages();
+
+        packagesCall.enqueue(new Callback<PackagesJSON>() {
+            @Override
+            public void onResponse(Call<PackagesJSON> call, Response<PackagesJSON> response) {
+                PackagesJSON packagesWrapper = response.body();
+
+                for(Item pkg: packagesWrapper.getItems()){
+                    Log.d("hi", pkg.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PackagesJSON> call, Throwable t) {
+                Log.d("hello", t.getMessage());
+            }
+        });
+
+
+
+
+
+
     }
 
     @Override
