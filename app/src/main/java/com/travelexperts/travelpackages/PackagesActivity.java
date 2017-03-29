@@ -48,29 +48,30 @@ public class PackagesActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        TextView packagesJsonTextView = (TextView)findViewById(R.id.tv_packages_json);
+        final TextView packagesJsonTextView = (TextView)findViewById(R.id.tv_packages_json);
 
 
 
-        
+
         RestClient restClient = new RestClient();
 
 
-
-        final List<Package> packages = new ArrayList<>();
-
+        // interface for dealing with the response from an asynchronous api call.
         IRestCallback packagesCallback = new IRestCallback() {
             @Override
             public void onSuccess(Response response) {
-
+                /*
+                    If the call was successful, then the response has what you need.
+                 */
                 PackagesWrapper pw = (PackagesWrapper) response.body();
                 for(Package pkg:pw.getItems()){
-                    Log.d("hello", pkg.toString());
+                    packagesJsonTextView.append(pkg.toString() + "\n");
                 }
 
             }
         };
 
+        // Pass the call and callback instance to a utility.
         CallbackUtils.requestPackagesFromCall(restClient.getApiService().getPackages(), packagesCallback);
 
 
