@@ -31,6 +31,7 @@ public class PackagesContract {
         public static final String TABLE_NAME = "packages";
         public static final Uri CONTENT_URI = BASE_URI.buildUpon().appendPath(PATH_PACKAGES)
                 .build();
+        public static final int NUM_COLUMNS = 6;
 
         public static final String COLUMN_PACKAGE_NAME = "PkgName";
         public static final String COLUMN_PACKAGE_START_DATE = "PkgStartDate";

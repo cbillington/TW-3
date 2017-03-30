@@ -163,4 +163,48 @@ public class PackagesProviderTest {
         taskCursor.close();
     }
 
+    @Test
+    public void testBulkInsert() {
+        // bulk insert takes an array of content values and inserts them into the database as a
+        // transaction.
+        int NUM_ROWS_TO_TEST = 4;
+        // create test data.
+        // initialize an array of content values
+        ContentValues[] testDataContentValues = new ContentValues[NUM_ROWS_TO_TEST];
+
+        for (int i = 0; i < NUM_ROWS_TO_TEST; i++ ){
+            ContentValues testRow = new ContentValues();
+            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_NAME, "test name");
+            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_START_DATE, "start date");
+            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_END_DATE, "end date");
+            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_DESCRIPTION, "test description");
+            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_BASE_PRICE, 1235.12);
+            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
+            testDataContentValues[i] = testRow;
+        }
+
+
+        // open connection to db
+        PackagesDbHelper dbHelper = new PackagesDbHelper(mContext);
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+
+        // execute bulk insert
+        int numRowsInserted = mContext.getContentResolver().bulkInsert(PackagesContract
+                .PackagesEntry.CONTENT_URI, testDataContentValues);
+
+        // close connection
+        database.close();
+
+        String insertFailed = "Bulk insert failed to insert test rows";
+        String numRowsWrong = "Bulk insert failed to insert the correct number of rows";
+
+        // assert that the number of rows inserted is not 0 and that the number of rows inserted
+        // is not different than what was expected.
+        assertTrue(insertFailed, numRowsInserted != 0);
+        assertTrue(numRowsWrong, numRowsInserted == NUM_ROWS_TO_TEST);
+    }
+
+
+
+
 }
