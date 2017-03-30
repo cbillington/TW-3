@@ -2,6 +2,7 @@ package com.travelexperts.travelpackages.data;
 
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.travelexperts.travelpackages.data.PackagesContract;
+import com.travelexperts.travelpackages.sync.PackagesContentObserver;
 
 public class PackagesProvider extends ContentProvider {
 
@@ -72,6 +74,8 @@ public class PackagesProvider extends ContentProvider {
         return cursorToReturn;
     }
 
+
+
     private Cursor getPackage(SQLiteDatabase db, String packageId){
         return db.query(PackagesContract.PackagesEntry.TABLE_NAME, new String[]{PackagesContract
                 .PackagesEntry._ID}, null, new String[]{packageId}, null, null, null);
@@ -91,7 +95,29 @@ public class PackagesProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        return null;
+
+        // this method checks the Uri and then executes the correct action
+        //      The correct action would be to insert the values into the sqllitedb.
+        SQLiteDatabase db = mPackagesDbHelper.getWritableDatabase();
+        int uriId = sUriMatcher.match(uri);
+        Uri uriToReturn = null;
+
+        switch(uriId){
+            case ALL_PACKAGES_URI_ID:
+                long id = db.insert(PackagesContract.PackagesEntry.TABLE_NAME, null, values);
+                if(id > 0){
+                    uriToReturn = ContentUris.withAppendedId(PackagesContract.PackagesEntry
+                            .CONTENT_URI, id);
+                }
+                else{
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                }
+                break;
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+
+        return uriToReturn;
     }
 
     @Override
@@ -102,5 +128,43 @@ public class PackagesProvider extends ContentProvider {
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         return 0;
+    }
+
+    @Override
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
+        final SQLiteDatabase db = mPackagesDbHelper.getWritableDatabase();
+        int numRowsInserted = 0;
+
+        switch(sUriMatcher.match(uri)){
+
+            case ALL_PACKAGES_URI_ID:
+                db.beginTransaction();
+
+
+                try{
+
+                    for (ContentValues row: values){
+                        long id = db.insert(PackagesContract.PackagesEntry.TABLE_NAME, null, row);
+                        if (id != -1){
+                            numRowsInserted++;
+                        }
+                    }
+
+                    db.setTransactionSuccessful();
+                }
+                finally{
+                    db.endTransaction();
+                }
+                break;
+
+            default:
+                return super.bulkInsert(uri, values);
+
+
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+
+        return numRowsInserted;
     }
 }

@@ -1,6 +1,8 @@
 package com.travelexperts.travelpackages;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -18,9 +20,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.fragments.all_tab;
 import com.travelexperts.travelpackages.fragments.new_tab;
 import com.travelexperts.travelpackages.fragments.popular_tab;
+import com.travelexperts.travelpackages.sync.PackageTasks;
+import com.travelexperts.travelpackages.sync.PackagesCacheIntentService;
+import com.travelexperts.travelpackages.sync.PackagesContentObserver;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -38,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private PackagesContentObserver mPackagesObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +82,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mPackagesObserver = new PackagesContentObserver(new Handler(), this);
+        getContentResolver().registerContentObserver(PackagesContract.PackagesEntry.CONTENT_URI,
+                true,
+                mPackagesObserver);
+
+        Intent getPackagesFromNetworkIntent = new Intent(this, PackagesCacheIntentService.class);
+        getPackagesFromNetworkIntent.setAction(PackageTasks.ACTION_GET_PACKAGES_FROM_NETWORK);
+
+        startService(getPackagesFromNetworkIntent);
+
 
     }
 

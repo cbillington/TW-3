@@ -1,4 +1,8 @@
 package com.travelexperts.travelpackages.network;
+import com.travelexperts.travelpackages.data.PackagesContract;
+import android.content.ContentValues;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "pkgBasePrice",
         "pkgAgencyCommission"
 })
-public class Package {
+public class Package implements Parcelable {
 
     @JsonProperty("packageId")
     private Integer packageId;
@@ -37,6 +41,9 @@ public class Package {
     private Double pkgAgencyCommission;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    public Package() {
+    }
 
     @JsonProperty("packageId")
     public Integer getPackageId() {
@@ -130,4 +137,79 @@ public class Package {
                 ", pkgAgencyCommission=" + pkgAgencyCommission +
                 '}';
     }
+
+    public ContentValues getContentValues(){
+        ContentValues rowToReturn = new ContentValues();
+        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_NAME, getPkgName());
+        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_START_DATE, getPkgStartDate());
+        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_END_DATE, getPkgEndDate());
+        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_DESCRIPTION, getPkgDesc());
+        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_BASE_PRICE, getPkgBasePrice());
+        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, getPkgAgencyCommission());
+        return rowToReturn;
+    }
+
+    protected Package(Parcel in) {
+        packageId = in.readByte() == 0x00 ? null : in.readInt();
+        pkgName = in.readString();
+        pkgStartDate = in.readByte() == 0x00 ? null : in.readLong();
+        pkgEndDate = in.readByte() == 0x00 ? null : in.readLong();
+        pkgDesc = in.readString();
+        pkgBasePrice = in.readByte() == 0x00 ? null : in.readDouble();
+        pkgAgencyCommission = in.readByte() == 0x00 ? null : in.readDouble();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (packageId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(packageId);
+        }
+        dest.writeString(pkgName);
+        if (pkgStartDate == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(pkgStartDate);
+        }
+        if (pkgEndDate == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeLong(pkgEndDate);
+        }
+        dest.writeString(pkgDesc);
+        if (pkgBasePrice == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(pkgBasePrice);
+        }
+        if (pkgAgencyCommission == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeDouble(pkgAgencyCommission);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Package> CREATOR = new Parcelable.Creator<Package>() {
+        @Override
+        public Package createFromParcel(Parcel in) {
+            return new Package(in);
+        }
+
+        @Override
+        public Package[] newArray(int size) {
+            return new Package[size];
+        }
+    };
 }

@@ -22,6 +22,7 @@ public class CallbackUtils {
         call.enqueue(new Callback<PackagesWrapper>() {
             @Override
             public void onResponse(Call<PackagesWrapper> call, Response<PackagesWrapper> response) {
+                Log.d("hello", "I made it to the onResponse");
                 callback.onSuccess(response);
             }
 
