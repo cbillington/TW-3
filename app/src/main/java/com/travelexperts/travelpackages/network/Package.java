@@ -140,12 +140,12 @@ public class Package implements Parcelable {
 
     public ContentValues getContentValues(){
         ContentValues rowToReturn = new ContentValues();
-        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_NAME, getPkgName());
-        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_START_DATE, getPkgStartDate());
-        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_END_DATE, getPkgEndDate());
-        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_DESCRIPTION, getPkgDesc());
-        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_BASE_PRICE, getPkgBasePrice());
-        rowToReturn.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, getPkgAgencyCommission());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, getPkgName());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, getPkgStartDate());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, getPkgEndDate());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, getPkgDesc());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, getPkgBasePrice());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, getPkgAgencyCommission());
         return rowToReturn;
     }
 

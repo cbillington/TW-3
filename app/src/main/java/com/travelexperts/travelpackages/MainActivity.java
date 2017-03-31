@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         mPackagesObserver = new PackagesContentObserver(new Handler(), this);
-        getContentResolver().registerContentObserver(PackagesContract.PackagesEntry.CONTENT_URI,
+        getContentResolver().registerContentObserver(PackagesContract.PackageEntry.CONTENT_URI,
                 true,
                 mPackagesObserver);
 

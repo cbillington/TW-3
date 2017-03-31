@@ -51,8 +51,7 @@ public class PackageTasks {
                     contentValues[i] = packages.get(i).getContentValues();
                 }
 
-                int numRowsInserted = context.getContentResolver().bulkInsert(PackagesContract
-                        .PackagesEntry
+                int numRowsInserted = context.getContentResolver().bulkInsert(PackagesContract.PackageEntry
                         .CONTENT_URI, contentValues);
                 Log.d("hello", String.valueOf(numRowsInserted));
 

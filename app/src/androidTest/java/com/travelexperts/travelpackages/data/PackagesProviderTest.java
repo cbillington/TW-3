@@ -19,7 +19,6 @@ import org.junit.runner.RunWith;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
-import static org.junit.Assert.*;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -31,10 +30,10 @@ public class PackagesProviderTest {
     public void setUp() throws Exception {
         PackagesDbHelper dbHelper = new PackagesDbHelper(mContext);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
-        database.delete(PackagesContract.PackagesEntry.TABLE_NAME, null, null);
+        database.delete(PackagesContract.PackageEntry.TABLE_NAME, null, null);
     }
 
-    private static final Uri TEST_PACKAGES = PackagesContract.PackagesEntry.CONTENT_URI;
+    private static final Uri TEST_PACKAGES = PackagesContract.PackageEntry.CONTENT_URI;
     // Content URI for a single task with id = 1
     private static final Uri TEST_PACKAGES_WITH_ID = TEST_PACKAGES.buildUpon().appendPath("1").build();
     
@@ -122,17 +121,17 @@ public class PackagesProviderTest {
 
         /* Create values to insert */
         ContentValues testTaskValues = new ContentValues();
-        testTaskValues.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_NAME, "test name");
-        testTaskValues.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_START_DATE, "start date");
-        testTaskValues.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_END_DATE, "end date");
-        testTaskValues.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_DESCRIPTION, "test description");
-        testTaskValues.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_BASE_PRICE, 1235.12);
-        testTaskValues.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
+        testTaskValues.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, "test name");
+        testTaskValues.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, "start date");
+        testTaskValues.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, "end date");
+        testTaskValues.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, "test description");
+        testTaskValues.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, 1235.12);
+        testTaskValues.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
 
         /* Insert ContentValues into database and get a row ID back */
         long taskRowId = database.insert(
                 /* Table to insert values into */
-                PackagesContract.PackagesEntry.TABLE_NAME,
+                PackagesContract.PackageEntry.TABLE_NAME,
                 null,
                 /* Values to insert into table */
                 testTaskValues);
@@ -145,7 +144,7 @@ public class PackagesProviderTest {
 
         /* Perform the ContentProvider query */
         Cursor taskCursor = mContext.getContentResolver().query(
-                PackagesContract.PackagesEntry.CONTENT_URI,
+                PackagesContract.PackageEntry.CONTENT_URI,
                 /* Columns; leaving this null returns every column in the table */
                 null,
                 /* Optional specification for columns in the "where" clause above */
@@ -174,12 +173,12 @@ public class PackagesProviderTest {
 
         for (int i = 0; i < NUM_ROWS_TO_TEST; i++ ){
             ContentValues testRow = new ContentValues();
-            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_NAME, "test name");
-            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_START_DATE, "start date");
-            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_END_DATE, "end date");
-            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_DESCRIPTION, "test description");
-            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_BASE_PRICE, 1235.12);
-            testRow.put(PackagesContract.PackagesEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
+            testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, "test name");
+            testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, "start date");
+            testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, "end date");
+            testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, "test description");
+            testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, 1235.12);
+            testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
             testDataContentValues[i] = testRow;
         }
 
@@ -189,8 +188,7 @@ public class PackagesProviderTest {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
         // execute bulk insert
-        int numRowsInserted = mContext.getContentResolver().bulkInsert(PackagesContract
-                .PackagesEntry.CONTENT_URI, testDataContentValues);
+        int numRowsInserted = mContext.getContentResolver().bulkInsert(PackagesContract.PackageEntry.CONTENT_URI, testDataContentValues);
 
         // close connection
         database.close();

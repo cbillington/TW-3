@@ -10,8 +10,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import com.travelexperts.travelpackages.data.PackagesContract;
-import com.travelexperts.travelpackages.sync.PackagesContentObserver;
 
 public class PackagesProvider extends ContentProvider {
 
@@ -77,12 +75,11 @@ public class PackagesProvider extends ContentProvider {
 
 
     private Cursor getPackage(SQLiteDatabase db, String packageId){
-        return db.query(PackagesContract.PackagesEntry.TABLE_NAME, new String[]{PackagesContract
-                .PackagesEntry._ID}, null, new String[]{packageId}, null, null, null);
+        return db.query(PackagesContract.PackageEntry.TABLE_NAME, new String[]{PackagesContract.PackageEntry._ID}, null, new String[]{packageId}, null, null, null);
     }
 
     private Cursor getAllPackages(SQLiteDatabase db) {
-        return db.query(PackagesContract.PackagesEntry.TABLE_NAME, null, null, null, null, null,
+        return db.query(PackagesContract.PackageEntry.TABLE_NAME, null, null, null, null, null,
                 null);
     }
 
@@ -104,9 +101,9 @@ public class PackagesProvider extends ContentProvider {
 
         switch(uriId){
             case ALL_PACKAGES_URI_ID:
-                long id = db.insert(PackagesContract.PackagesEntry.TABLE_NAME, null, values);
+                long id = db.insert(PackagesContract.PackageEntry.TABLE_NAME, null, values);
                 if(id > 0){
-                    uriToReturn = ContentUris.withAppendedId(PackagesContract.PackagesEntry
+                    uriToReturn = ContentUris.withAppendedId(PackagesContract.PackageEntry
                             .CONTENT_URI, id);
                 }
                 else{
@@ -144,7 +141,7 @@ public class PackagesProvider extends ContentProvider {
                 try{
 
                     for (ContentValues row: values){
-                        long id = db.insert(PackagesContract.PackagesEntry.TABLE_NAME, null, row);
+                        long id = db.insert(PackagesContract.PackageEntry.TABLE_NAME, null, row);
                         if (id != -1){
                             numRowsInserted++;
                         }

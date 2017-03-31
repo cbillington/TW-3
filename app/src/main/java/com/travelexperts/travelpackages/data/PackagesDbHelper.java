@@ -29,9 +29,14 @@ public class PackagesDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableSql = createTableSql();
-        db.execSQL(createTableSql);
+        String createPackagesTableSql = createPackagesTableSql();
+        String createBookingsTableSql = createBookingsTableSql();
+
+        db.execSQL(createPackagesTableSql);
+        db.execSQL(createBookingsTableSql);
     }
+
+
 
 
     /**
@@ -45,7 +50,7 @@ public class PackagesDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + PackagesEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + PackageEntry.TABLE_NAME);
         onCreate(db);
     }
 
@@ -54,19 +59,38 @@ public class PackagesDbHelper extends SQLiteOpenHelper {
      *
      * @return: SQL Statement to create the packages table.
      */
-    private String createTableSql() {
+    private String createPackagesTableSql() {
 
-        StringBuilder sb = new StringBuilder("CREATE TABLE ").append(PackagesEntry.TABLE_NAME)
+        StringBuilder sb = new StringBuilder("CREATE TABLE ").append(PackageEntry.TABLE_NAME)
                 .append(" (")
-                .append(PackagesEntry._ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT,")
-                .append(PackagesEntry.COLUMN_PACKAGE_NAME).append(" TEXT, ")
-                .append(PackagesEntry.COLUMN_PACKAGE_START_DATE).append(" TEXT, ")
-                .append(PackagesEntry.COLUMN_PACKAGE_END_DATE).append(" TEXT, ")
-                .append(PackagesEntry.COLUMN_PACKAGE_DESCRIPTION).append(" TEXT, ")
-                .append(PackagesEntry.COLUMN_PACKAGE_BASE_PRICE).append(" REAL, ")
-                .append(PackagesEntry.COLUMN_PACKAGE_AGENCY_COMMISSION).append(" REAL); ");
+                .append(PackageEntry._ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT,")
+                .append(PackageEntry.COLUMN_PACKAGE_NAME).append(" TEXT, ")
+                .append(PackageEntry.COLUMN_PACKAGE_START_DATE).append(" TEXT, ")
+                .append(PackageEntry.COLUMN_PACKAGE_END_DATE).append(" TEXT, ")
+                .append(PackageEntry.COLUMN_PACKAGE_DESCRIPTION).append(" TEXT, ")
+                .append(PackageEntry.COLUMN_PACKAGE_BASE_PRICE).append(" REAL, ")
+                .append(PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION).append(" REAL); ");
 
         return sb.toString();
 
+    }
+
+    private String createBookingsTableSql() {
+        StringBuilder sb = new StringBuilder("CREATE TABLE ").append(BookingEntry.TABLE_NAME)
+                .append(" (")
+                .append(BookingEntry._ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT,")
+                .append(BookingEntry.COLUMN_BOOKING_ID).append(" TEXT, ")
+                .append(BookingEntry.COLUMN_BOOKING_DATE).append(" TEXT, ")
+                .append(BookingEntry.COLUMN_BOOKING_NO).append(" TEXT, ")
+                .append(BookingEntry.COLUMN_TRAVELER_COUNT).append(" TEXT, ")
+                .append(BookingEntry.COLUMN_CUSTOMER_ID).append(" TEXT, ")
+                .append(BookingEntry.COLUMN_TRIP_TYPE_ID).append(" TEXT, ")
+                .append(BookingEntry.COLUMN_PACKAGE_ID).append(" TEXT, ")
+                .append(BookingEntry.COLUMN_BOOKING_DETAIL).append(" TEXT, ")
+                .append(BookingEntry.COLUMN_FEE).append(" TEXT, ")
+                .append(BookingEntry.COLUMN_TRIP_TYPE).append(" TEXT); ");
+
+
+        return sb.toString();
     }
 }

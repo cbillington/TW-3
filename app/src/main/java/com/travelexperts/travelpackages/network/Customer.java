@@ -1,6 +1,8 @@
+
 package com.travelexperts.travelpackages.network;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -11,17 +13,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "customerId",
-        "custFirstName",
-        "custLastName",
-        "custAddress",
-        "custCity",
-        "custProv",
-        "custPostal",
-        "custCountry",
-        "custHomePhone",
-        "custBusPhone",
-        "custEmail"
+    "customerId",
+    "custFirstName",
+    "custLastName",
+    "custAddress",
+    "custCity",
+    "custProv",
+    "custPostal",
+    "custCountry",
+    "custHomePhone",
+    "custBusPhone",
+    "custEmail",
+    "agentId",
+    "bookings"
 })
 public class Customer {
 
@@ -47,6 +51,10 @@ public class Customer {
     private String custBusPhone;
     @JsonProperty("custEmail")
     private String custEmail;
+    @JsonProperty("agentId")
+    private Integer agentId;
+    @JsonProperty("bookings")
+    private List<Booking> bookings = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -158,6 +166,26 @@ public class Customer {
     @JsonProperty("custEmail")
     public void setCustEmail(String custEmail) {
         this.custEmail = custEmail;
+    }
+
+    @JsonProperty("agentId")
+    public Integer getAgentId() {
+        return agentId;
+    }
+
+    @JsonProperty("agentId")
+    public void setAgentId(Integer agentId) {
+        this.agentId = agentId;
+    }
+
+    @JsonProperty("bookings")
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    @JsonProperty("bookings")
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 
     @JsonAnyGetter

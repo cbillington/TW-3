@@ -35,7 +35,7 @@ public class PackagesContentObserver extends ContentObserver {
     @Override
     public void onChange(boolean selfChange, Uri uri) {
         Log.d("hello", "changes observed: ");
-        Cursor rows = mContextOfObserver.getContentResolver().query(PackagesContract.PackagesEntry
+        Cursor rows = mContextOfObserver.getContentResolver().query(PackagesContract.PackageEntry
                         .CONTENT_URI,
                 null, null, null, null);
 

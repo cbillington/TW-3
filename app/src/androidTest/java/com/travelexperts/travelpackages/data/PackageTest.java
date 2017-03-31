@@ -1,17 +1,12 @@
 package com.travelexperts.travelpackages.data;
 
 import android.content.ContentValues;
-import android.content.Context;
-import android.net.Uri;
 
 
-import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.network.Package;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
 
@@ -43,7 +38,7 @@ public class PackageTest {
         ContentValues packageToInsert = mPackage.getContentValues();
         int numPropertiesInRow = packageToInsert.size();
 
-        int numColumnsInTable = PackagesContract.PackagesEntry.NUM_COLUMNS;
+        int numColumnsInTable = PackagesContract.PackageEntry.NUM_COLUMNS;
 
         String contentValuesError = "Returned content values does not match number of properties " +
                 "in class";
