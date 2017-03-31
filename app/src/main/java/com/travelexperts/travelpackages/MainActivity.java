@@ -1,8 +1,10 @@
 package com.travelexperts.travelpackages;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -16,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,11 +27,14 @@ import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.fragments.all_tab;
 import com.travelexperts.travelpackages.fragments.new_tab;
 import com.travelexperts.travelpackages.fragments.popular_tab;
+import com.travelexperts.travelpackages.network.Customer;
 import com.travelexperts.travelpackages.sync.NetworkTasks;
 import com.travelexperts.travelpackages.sync.PackagesCacheIntentService;
 import com.travelexperts.travelpackages.sync.PackagesContentObserver;
+import com.travelexperts.travelpackages.utils.PreferenceUtils;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView
+        .OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -39,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -83,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        // TODO: Cleanup tests
         mPackagesObserver = new PackagesContentObserver(new Handler(), this);
         getContentResolver().registerContentObserver(PackagesContract.PackageEntry.CONTENT_URI,
                 true,
@@ -93,7 +102,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         startService(getPackagesFromNetworkIntent);
 
-        NetworkTasks.getCustomerFromNetwork(this, 135);
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
+
+        NetworkTasks.getCustomerFromNetwork(this, 143);
 
     }
 
@@ -150,6 +162,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        if (key.equals(PreferenceUtils.KEY_CUSTOMER)){
+            Customer customer = PreferenceUtils.getCustomer(this);
+            Log.d(TAG, customer.toString());
+        }
     }
 
 

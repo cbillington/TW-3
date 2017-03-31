@@ -25,6 +25,7 @@ import retrofit2.Response;
  */
 
 public class NetworkTasks {
+
     private static final String TAG = NetworkTasks.class.getSimpleName();
 
     public static final String ACTION_GET_PACKAGES_FROM_NETWORK = "get-packages-from-network";

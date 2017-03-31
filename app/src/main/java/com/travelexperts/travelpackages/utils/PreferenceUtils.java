@@ -22,7 +22,7 @@ public final class PreferenceUtils {
      */
 
 
-    private static final String KEY_CUSTOMER = "customer-preference-key";
+    public static final String KEY_CUSTOMER = "customer-preference-key";
 
 
     public static void updateCustomer(Context context, Customer customer){
