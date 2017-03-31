@@ -33,9 +33,9 @@ public class BookingDetail {
     @JsonProperty("itineraryNo")
     private Double itineraryNo;
     @JsonProperty("tripStart")
-    private Integer tripStart;
+    private Long tripStart;
     @JsonProperty("tripEnd")
-    private Integer tripEnd;
+    private Long tripEnd;
     @JsonProperty("description")
     private String description;
     @JsonProperty("destination")
@@ -78,22 +78,22 @@ public class BookingDetail {
     }
 
     @JsonProperty("tripStart")
-    public Integer getTripStart() {
+    public Long getTripStart() {
         return tripStart;
     }
 
     @JsonProperty("tripStart")
-    public void setTripStart(Integer tripStart) {
+    public void setTripStart(Long tripStart) {
         this.tripStart = tripStart;
     }
 
     @JsonProperty("tripEnd")
-    public Integer getTripEnd() {
+    public Long getTripEnd() {
         return tripEnd;
     }
 
     @JsonProperty("tripEnd")
-    public void setTripEnd(Integer tripEnd) {
+    public void setTripEnd(Long tripEnd) {
         this.tripEnd = tripEnd;
     }
 

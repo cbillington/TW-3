@@ -25,7 +25,7 @@ public final class PreferenceUtils {
     private static final String KEY_CUSTOMER = "customer-preference-key";
 
 
-    private static void updateCustomer(Context context, Customer customer){
+    public static void updateCustomer(Context context, Customer customer){
         // this method accesses the shared preferences and updates the customer info.
         ObjectMapper objMapper = new ObjectMapper();
         String customerJSON = null;
@@ -42,7 +42,7 @@ public final class PreferenceUtils {
         editor.apply();
     }
 
-    private static Customer getCustomer(Context context){
+    public static Customer getCustomer(Context context){
         ObjectMapper objMapper = new ObjectMapper();
         Customer customerToReturn = null;
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);

@@ -25,6 +25,6 @@ public class PackagesCacheIntentService extends IntentService {
 
         String action = intent.getAction();
         Log.d("hello", action);
-        PackageTasks.executeTask(this, action);
+        NetworkTasks.executeTask(this, action, null);
     }
 }

@@ -32,4 +32,20 @@ public class CallbackUtils {
             }
         });
     }
+
+    public static void requestCustomerFromNetwork(Call<Customer> call, final IRestCallback
+            callback) {
+        call.enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+
+                callback.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                Log.d("hello", t.getMessage());
+            }
+        });
+    }
 }

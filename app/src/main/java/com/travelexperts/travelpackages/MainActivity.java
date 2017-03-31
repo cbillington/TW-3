@@ -24,7 +24,7 @@ import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.fragments.all_tab;
 import com.travelexperts.travelpackages.fragments.new_tab;
 import com.travelexperts.travelpackages.fragments.popular_tab;
-import com.travelexperts.travelpackages.sync.PackageTasks;
+import com.travelexperts.travelpackages.sync.NetworkTasks;
 import com.travelexperts.travelpackages.sync.PackagesCacheIntentService;
 import com.travelexperts.travelpackages.sync.PackagesContentObserver;
 
@@ -89,10 +89,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mPackagesObserver);
 
         Intent getPackagesFromNetworkIntent = new Intent(this, PackagesCacheIntentService.class);
-        getPackagesFromNetworkIntent.setAction(PackageTasks.ACTION_GET_PACKAGES_FROM_NETWORK);
+        getPackagesFromNetworkIntent.setAction(NetworkTasks.ACTION_GET_PACKAGES_FROM_NETWORK);
 
         startService(getPackagesFromNetworkIntent);
 
+        NetworkTasks.getCustomerFromNetwork(this, 135);
 
     }
 

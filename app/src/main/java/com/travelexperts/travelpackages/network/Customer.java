@@ -198,4 +198,23 @@ public class Customer {
         this.additionalProperties.put(name, value);
     }
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", custFirstName='" + custFirstName + '\'' +
+                ", custLastName='" + custLastName + '\'' +
+                ", custAddress='" + custAddress + '\'' +
+                ", custCity='" + custCity + '\'' +
+                ", custProv='" + custProv + '\'' +
+                ", custPostal='" + custPostal + '\'' +
+                ", custCountry='" + custCountry + '\'' +
+                ", custHomePhone='" + custHomePhone + '\'' +
+                ", custBusPhone='" + custBusPhone + '\'' +
+                ", custEmail='" + custEmail + '\'' +
+                ", agentId=" + agentId +
+                ", bookings=" + bookings +
+                ", additionalProperties=" + additionalProperties +
+                '}';
+    }
 }

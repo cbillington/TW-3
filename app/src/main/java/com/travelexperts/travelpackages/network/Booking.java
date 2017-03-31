@@ -30,7 +30,7 @@ public class Booking {
     @JsonProperty("bookingId")
     private Integer bookingId;
     @JsonProperty("bookingDate")
-    private Integer bookingDate;
+    private Long bookingDate;
     @JsonProperty("bookingNo")
     private String bookingNo;
     @JsonProperty("travelerCount")
@@ -63,12 +63,12 @@ public class Booking {
     }
 
     @JsonProperty("bookingDate")
-    public Integer getBookingDate() {
+    public Long getBookingDate() {
         return bookingDate;
     }
 
     @JsonProperty("bookingDate")
-    public void setBookingDate(Integer bookingDate) {
+    public void setBookingDate(Long bookingDate) {
         this.bookingDate = bookingDate;
     }
 
