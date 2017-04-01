@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
 
+import com.travelexperts.travelpackages.adapters.PackagesAdapter;
 import com.travelexperts.travelpackages.data.PackagesContract;
 
 /**
@@ -14,17 +15,22 @@ import com.travelexperts.travelpackages.data.PackagesContract;
  */
 
 public class PackagesContentObserver extends ContentObserver {
-    private final Context mContextOfObserver;
+
+
+    private PackagesAdapter mPackagesAdapter;
+    private Context mContextOfObserver;
 
     /**
      * Creates a content observer.
      *
      * @param handler The handler to run {@link #onChange} on, or null if none.
      */
-    public PackagesContentObserver(Handler handler, Context contextOfObserver) {
+    public PackagesContentObserver(Handler handler, PackagesAdapter packagesAdapter, Context
+            context) {
 
         super(handler);
-        this.mContextOfObserver = contextOfObserver;
+        this.mContextOfObserver = context;
+        this.mPackagesAdapter = packagesAdapter;
     }
 
     @Override
@@ -34,11 +40,12 @@ public class PackagesContentObserver extends ContentObserver {
 
     @Override
     public void onChange(boolean selfChange, Uri uri) {
-        Log.d("hello", "changes observed: ");
+
         Cursor rows = mContextOfObserver.getContentResolver().query(PackagesContract.PackageEntry
                         .CONTENT_URI,
                 null, null, null, null);
 
-        Log.d("hello", String.valueOf(rows.getCount()));
+        mPackagesAdapter.swapCursor(rows);
+
     }
 }

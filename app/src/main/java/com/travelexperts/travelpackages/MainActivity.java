@@ -92,10 +92,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView
 
 
         // TODO: Cleanup tests
-        mPackagesObserver = new PackagesContentObserver(new Handler(), this);
-        getContentResolver().registerContentObserver(PackagesContract.PackageEntry.CONTENT_URI,
+
+        /*getContentResolver().registerContentObserver(PackagesContract.PackageEntry.CONTENT_URI,
                 true,
-                mPackagesObserver);
+                mPackagesObserver);*/
 
         Intent getPackagesFromNetworkIntent = new Intent(this, PackagesCacheIntentService.class);
         getPackagesFromNetworkIntent.setAction(NetworkTasks.ACTION_GET_PACKAGES_FROM_NETWORK);
