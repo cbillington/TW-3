@@ -24,16 +24,44 @@ public class PackagesContract {
     public static final String PATH_PACKAGES = "packages";
     public static final String PATH_BOOKINGS = "bookings";
 
+
+
     /**
      *
      * inner class to represent the Travel Experts packages table.
      */
     public static final class PackageEntry implements BaseColumns{
+
+        //endpoints
+        public static final String PATH_MODIFY = "modify";
+        public static final String PATH_DELETE = "delete";
+        public static final String PATH_INSERT = "insert";
+
+
+        // TODO: implement changes to provider
+        // endpoint uri's
+        public static final Uri CONTENT_URI_MODIFY = BASE_URI.buildUpon().appendPath
+                (PATH_PACKAGES).appendPath
+                (PATH_MODIFY).build();
+        public static final Uri CONTENT_URI_DELETE = BASE_URI.buildUpon().appendPath
+                (PATH_PACKAGES).appendPath
+                (PATH_DELETE)
+                .build();
+        public static final Uri CONTENT_URI_INSERT = BASE_URI.buildUpon().appendPath
+                (PATH_PACKAGES).appendPath
+                (PATH_INSERT).build();
+
+        // table name
         public static final String TABLE_NAME = "packages";
+
+        // base uri
         public static final Uri CONTENT_URI = BASE_URI.buildUpon().appendPath(PATH_PACKAGES)
                 .build();
+
         public static final int NUM_COLUMNS = 6;
 
+        // column names
+        public static final String COLUMN_PACKAGE_ID = "PackageId";
         public static final String COLUMN_PACKAGE_NAME = "PkgName";
         public static final String COLUMN_PACKAGE_START_DATE = "PkgStartDate";
         public static final String COLUMN_PACKAGE_END_DATE = "PkgEndDate";
@@ -44,10 +72,19 @@ public class PackagesContract {
 
     public static final class BookingEntry implements BaseColumns {
 
+
+
+        // table name
         public static final String TABLE_NAME = "bookings";
+
+        // base
         public static final Uri CONTENT_URI = BASE_URI.buildUpon().appendPath(PATH_BOOKINGS)
                 .build();
         public static final int NUM_COLUMNS = 10;
+
+
+        // paths
+
 
 
 
