@@ -203,6 +203,42 @@ public class PackagesProviderTest {
     }
 
 
+    @Test
+    public void testInsert(){
+        PackagesDbHelper dbHelper = new PackagesDbHelper(mContext);
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
 
+        // we need to make sure the returned URI follows the pattern of
+        // content://<authority>/packages/insert/#
+        int RETURN_URI_ID = 1;
+
+        // create a uri matcher for the pattern
+        UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        uriMatcher.addURI(PackagesContract.CONTENT_AUTHORITY, PackagesContract.PATH_PACKAGES + "/" + PackagesContract.PackageEntry.PATH_INSERT + "/#", 1);
+
+        ContentValues testRow = new ContentValues();
+        testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, "test name");
+        testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, "start date");
+        testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, "end date");
+        testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, "test description");
+        testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, 1235.12);
+        testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
+
+        Uri insertedRowUri = mContext.getContentResolver().insert(PackagesContract.PackageEntry
+                        .CONTENT_URI_INSERT,
+                testRow);
+
+        database.close();
+
+        // make sure returned uri contains the proper structure
+        // content://<authority>/packages/insert/#
+        String uriDoesntMatch = "Uri does not match convention for insert: " + insertedRowUri;
+        assertTrue(uriDoesntMatch, uriMatcher.match(insertedRowUri) == RETURN_URI_ID);
+
+
+
+    }
+
+    //TODO: test new implementations of provider endpoints (modify, delete)
 
 }
