@@ -33,7 +33,7 @@ public class PackagesDbHelper extends SQLiteOpenHelper {
         String createBookingsTableSql = createBookingsTableSql();
 
         db.execSQL(createPackagesTableSql);
-        db.execSQL(createBookingsTableSql);
+        //db.execSQL(createBookingsTableSql);
     }
 
 
