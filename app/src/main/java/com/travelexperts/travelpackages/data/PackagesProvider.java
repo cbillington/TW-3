@@ -10,6 +10,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class PackagesProvider extends ContentProvider {
 
@@ -22,8 +26,15 @@ public class PackagesProvider extends ContentProvider {
     static final int UNIQUE_PACKAGE_URI_ID = 101; // unique id for Uri's that map to a single row
     // in the 'packages' table.
 
+    static final int INSERT_PACKAGE_URI_ID = 102;
+
+    static final int MODIFY_PACKAGE_URI_ID = 103;
+
+    static final int DELETE_PACKAGE_URI_ID = 104;
+
+
     // variable to access the UriMatcher object to find what Uri was called.
-    private static final UriMatcher sUriMatcher = buildUriMatcher();
+    public static final UriMatcher sUriMatcher = buildUriMatcher();
 
     public static UriMatcher buildUriMatcher(){
         // the UriMatcher is an object that contains the uris to match, once this object is built
@@ -39,6 +50,19 @@ public class PackagesProvider extends ContentProvider {
         // /# is used as a wildcard for any integers on the end of the path.
         uriMatcher.addURI(PackagesContract.CONTENT_AUTHORITY, PackagesContract.PATH_PACKAGES + "/#",
                 UNIQUE_PACKAGE_URI_ID);
+
+        // matches request for modifying a single package
+        uriMatcher.addURI(PackagesContract.CONTENT_AUTHORITY, PackagesContract.PATH_PACKAGES + "/" +
+                PackagesContract.PackageEntry.PATH_MODIFY + "/#", MODIFY_PACKAGE_URI_ID );
+
+        // matches request for inserting package(s)
+        uriMatcher.addURI(PackagesContract.CONTENT_AUTHORITY, PackagesContract.PATH_PACKAGES +
+                "/" + PackagesContract.PackageEntry.PATH_INSERT, INSERT_PACKAGE_URI_ID);
+
+        // matches request for deleting a single package
+        uriMatcher.addURI(PackagesContract.CONTENT_AUTHORITY, PackagesContract.PATH_PACKAGES +
+                "/" + PackagesContract.PackageEntry.PATH_DELETE + "/#", DELETE_PACKAGE_URI_ID);
+
 
         return uriMatcher;
     }
@@ -99,27 +123,60 @@ public class PackagesProvider extends ContentProvider {
         int uriId = sUriMatcher.match(uri);
         Uri uriToReturn = null;
 
-        switch(uriId){
-            case ALL_PACKAGES_URI_ID:
-                long id = db.insert(PackagesContract.PackageEntry.TABLE_NAME, null, values);
-                if(id > 0){
-                    uriToReturn = ContentUris.withAppendedId(PackagesContract.PackageEntry
-                            .CONTENT_URI, id);
-                }
-                else{
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
-                }
-                break;
+        // make sure uri sent is valid for this endpoint by maintain a set of valid ids
+        Set<Integer> validUriIdsForInserting = new HashSet<>();
+        validUriIdsForInserting.add(INSERT_PACKAGE_URI_ID);
+
+
+        if (validUriIdsForInserting.contains(uriId)){
+
+            // insert row into db and get the id of row inserted
+            long id = db.insert(PackagesContract.PackageEntry.TABLE_NAME, null, values);
+
+            if(id > 0){
+
+                uriToReturn = ContentUris.withAppendedId(PackagesContract.PackageEntry
+                        .CONTENT_URI_INSERT, id);
+            }
+
+            else{
+                throw new android.database.SQLException("Failed to insert row into " + uri);
+            }
+        }
+
+        else{
+            // incorrect uri supplied
+            throw new UnsupportedOperationException("Insertion Failed, Incorrect URI Path: " +
+            uri);
         }
 
         getContext().getContentResolver().notifyChange(uri, null);
+        db.close();
 
         return uriToReturn;
     }
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+
+        int numRowsDeleted = 0;
+        SQLiteDatabase db = mPackagesDbHelper.getWritableDatabase();
+
+        switch(sUriMatcher.match(uri)){
+
+            case ALL_PACKAGES_URI_ID:
+                numRowsDeleted = db.delete(PackagesContract.PackageEntry.TABLE_NAME,
+                        selection,
+                        selectionArgs);
+                break;
+
+            default:
+                throw new UnsupportedOperationException("Unknown Uri: " + uri);
+        }
+        Log.d("hello", String.valueOf(numRowsDeleted));
+        getContext().getContentResolver().notifyChange(uri, null);
+        db.close();
+        return numRowsDeleted;
     }
 
     @Override
@@ -161,7 +218,7 @@ public class PackagesProvider extends ContentProvider {
         }
 
         getContext().getContentResolver().notifyChange(uri, null);
-
+        db.close();
         return numRowsInserted;
     }
 }
