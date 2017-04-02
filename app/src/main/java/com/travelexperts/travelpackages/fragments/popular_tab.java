@@ -52,6 +52,8 @@ public class popular_tab extends Fragment{
                 true,
                 mPackagesObserver);
 
+
+
         ContentValues testRow = new ContentValues();
         testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, "test name");
         testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, "start date");

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -22,5 +22,14 @@
         <!--android:fitsSystemWindows="true"-->
         <!--app:headerLayout="@layout/nav_header_packages"-->
         <!--app:menu="@menu/activity_packages_drawer"/>-->
+    <Button
+        android:id="@+id/btn_test_insert2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_packages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
-</android.support.v4.widget.DrawerLayout>
+</LinearLayout>

@@ -17,6 +17,7 @@ import java.io.IOException;
 public final class PreferenceUtils {
 
     /**
+     *
      * This utility is used to interact with SharedPreferences
      *
      */
