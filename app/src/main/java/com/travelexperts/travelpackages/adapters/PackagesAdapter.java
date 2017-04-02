@@ -2,6 +2,7 @@ package com.travelexperts.travelpackages.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +12,15 @@ import android.widget.TextView;
 
 import com.travelexperts.travelpackages.R;
 import com.travelexperts.travelpackages.data.PackagesContract;
+import com.travelexperts.travelpackages.data.PackagesProvider;
+import com.travelexperts.travelpackages.sync.PackagesContentObserver;
 
 /**
  * Created by 468364 on 3/31/2017.
  */
 
-public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.PackageViewHolder> {
+public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.PackageViewHolder>
+        implements PackagesContentObserver.OnPackagesChangedListener {
 
 
     private final Context mContext;
@@ -24,7 +28,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
 
     /**
      * This method is used to swap the cursor that contains
-     * @param newCursor
+     * @param newCursor: newCursor is the updated packages table.
      *
      */
 
@@ -69,7 +73,24 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
     @Override
     public long getItemId(int position) {
         mPackages.moveToPosition(position);
+
+        /*
+            For the recyclerview to properly render a CursorSwap (keep animations) then
+            setHasStableIds must be true and this method must be properly overriden to keep
+            consistent ids that correspond to the unique id of the data source ( in this case the
+             _id column of each cursor row.
+
+         */
         return mPackages.getInt(mPackages.getColumnIndex("_id"));
+    }
+
+    @Override
+    public void onPackagesChanged(Uri uriOfChangedContentProviderEndpoint) {
+
+        // TODO: implement these methods
+        /*this.notifyItemChanged();
+        this.notifyItemInserted();
+        this.notifyItemRemoved();*/
     }
 
     public static class PackageViewHolder extends RecyclerView.ViewHolder {
@@ -100,7 +121,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
                     .COLUMN_PACKAGE_NAME);
             int packagePriceIndex = packageRow.getColumnIndex(PackagesContract.PackageEntry
                     .COLUMN_PACKAGE_BASE_PRICE);
-
+            Log.d("hello", packageRow.getString(0));
             mPackageNameTextView.setText(packageRow.getString(packageNameIndex));
             mPackagePriceTextView.setText(packageRow.getString(packagePriceIndex));
 
