@@ -15,6 +15,7 @@ import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.data.PackagesProvider;
 import com.travelexperts.travelpackages.sync.PackagesContentObserver;
 
+
 /**
  * Created by 468364 on 3/31/2017.
  */
@@ -26,11 +27,10 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
     private Cursor mPackages;
 
     /**
-     * This method is used to swap the cursor that contains
+     * This method is used to swap the cursor that contains new package data.
      * @param newCursor: newCursor is the updated packages table.
      *
      */
-
     public void swapCursor(Cursor newCursor){
         Log.d(PackagesAdapter.class.getSimpleName(), "Cursor Swapped");
         mPackages = newCursor;
@@ -59,16 +59,24 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
         return new PackageViewHolder(viewToReturn);
     }
 
+    /**
+     * onBindViewHolder takes in a blank holder and sets all the data needed for a packages item.
+     * @param holder: empty viewholder
+     * @param position: position in cursor where this data is located.
+     *
+     */
     @Override
     public void onBindViewHolder(PackageViewHolder holder, int position) {
         mPackages.moveToPosition(position);
         holder.bind(mPackages);
     }
 
+
     @Override
     public int getItemCount() {
         return mPackages.getCount();
     }
+
 
     @Override
     public long getItemId(int position) {
@@ -85,16 +93,31 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
     }
 
 
-    public void onPackagesChanged(Uri uriOfChangedContentProviderEndpoint) {
-
-        // TODO: implement these methods
-        /*this.notifyItemChanged();
-        this.notifyItemInserted();
-        this.notifyItemRemoved();*/
+    /**
+     * this must be true for this adapter since we are utalizing the fact that the Id's for each
+     * item are matching the underlying content provider. This makes it easy to implement methods
+     * like nofifyItemInserted() and keeps the nice animations.
+     *
+     * @param hasStableIds: property of a recyclerview adapter.
+     *
+     */
+    @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        hasStableIds = true;
     }
 
-
+    /**
+     * This method is called by the content observer when a change to the packages table has been
+     * made. It is safe to assume that the uri provided matches the correct Uri since the content
+     * observer is responsible for making sure this method is only called at the correct observed
+     * changes.
+     *
+     * @param newCursor: new cursor for the adapter from quering the packages provider.
+     * @param uriOfChangedContentProviderEndpoint: should be content://<authority>/packages/insert/#
+     *
+     */
     public void onPackageInserted(Cursor newCursor, Uri uriOfChangedContentProviderEndpoint) {
+
         Log.d("hello from adapter", String.valueOf(uriOfChangedContentProviderEndpoint));
         if (PackagesProvider.sUriMatcher.match(uriOfChangedContentProviderEndpoint) ==
                 PackagesProvider.INSERTED_PACKAGE_URI_ID){
@@ -107,6 +130,8 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
 
 
     }
+
+    // TODO: implement methods for onPackageModifed, onPackageDeleted
 
 
 
@@ -132,7 +157,12 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
             mPackagePriceTextView = (TextView) itemView.findViewById(R.id.tv_package_price);
         }
 
-
+        /**
+         * this method takes a cursor and binds the viewholder object with the data inside the
+         * cursor.
+         * @param packageRow: data to be binded.
+         *
+         */
         public void bind(Cursor packageRow) {
             int packageNameIndex = packageRow.getColumnIndex(PackagesContract.PackageEntry
                     .COLUMN_PACKAGE_NAME);

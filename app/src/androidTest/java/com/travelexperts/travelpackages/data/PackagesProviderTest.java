@@ -36,7 +36,12 @@ public class PackagesProviderTest {
     private static final Uri TEST_PACKAGES = PackagesContract.PackageEntry.CONTENT_URI;
     // Content URI for a single task with id = 1
     private static final Uri TEST_PACKAGES_WITH_ID = TEST_PACKAGES.buildUpon().appendPath("1").build();
-    
+
+    private static final Uri TEST_INSERT_PACKAGE_URI_ID = PackagesContract.PackageEntry.CONTENT_URI_INSERT;
+
+
+    private static final Uri TEST_INSERTED_PACKAGE_URI_ID = PackagesContract.PackageEntry.CONTENT_URI_INSERT.buildUpon().appendPath("1").build();
+
     @Test
     public void buildUriMatcher() throws Exception {
         /* Create a URI matcher that the PackagesProvider uses */
@@ -58,6 +63,22 @@ public class PackagesProviderTest {
         assertEquals(taskWithIdDoesNotMatch,
                 actualTaskWithIdCode,
                 expectedTaskWithIdCode);
+
+        // test that inserting a new package uri id matches
+        String packageInsertUriDoesNotMatch = "Error: the INSERT_PACKAGE_URI_ID was matched incorrectly";
+        int actualIdInsertPackageIdCode = testMatcher.match(TEST_INSERT_PACKAGE_URI_ID);
+        int expectedInsertPackageIdCode = PackagesProvider.INSERT_PACKAGE_URI_ID;
+        assertEquals(packageInsertUriDoesNotMatch, actualIdInsertPackageIdCode, expectedInsertPackageIdCode);
+
+        // test that an INSERTED package uri id matches -- used for notifiying observers of
+        // exactly what position changed.
+        String packageInsertedUriDoesNotMatch = "Error: the INSERTED_PACKAGE_URI_ID was matched incorrectly";
+        int actualIdOfInsertedCode = testMatcher.match(TEST_INSERTED_PACKAGE_URI_ID);
+        int expectedInsertedPakcageUriId = PackagesProvider.INSERTED_PACKAGE_URI_ID;
+        assertEquals(packageInsertedUriDoesNotMatch, actualIdOfInsertedCode, expectedInsertedPakcageUriId);
+
+
+
 
     }
 

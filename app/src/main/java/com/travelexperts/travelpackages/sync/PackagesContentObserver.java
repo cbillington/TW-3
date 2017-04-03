@@ -19,7 +19,6 @@ public class PackagesContentObserver extends ContentObserver {
 
     private PackagesAdapter mPackagesAdapter;
     private Context mContextOfObserver;
-    private OnPackagesChangedListener mCallback;
     /**
      * Creates a content observer.
      *
@@ -31,6 +30,7 @@ public class PackagesContentObserver extends ContentObserver {
         super(handler);
         this.mContextOfObserver = context;
         this.mPackagesAdapter = packagesAdapter;
+
     }
 
     @Override
@@ -41,18 +41,13 @@ public class PackagesContentObserver extends ContentObserver {
     @Override
     public void onChange(boolean selfChange, Uri uri) {
 
-        //mCallback.onPackagesChanged(uri);
         Cursor rows = mContextOfObserver.getContentResolver().query(PackagesContract.PackageEntry
                         .CONTENT_URI,
                 null, null, null, null);
 
-        //mPackagesAdapter.swapCursor(rows);
-
+        //TODO: implement a switch statement to seperate calls to adapter based on Uri sent.
+        //TODO: implement tests for each CRUD statement.
         mPackagesAdapter.onPackageInserted(rows, uri);
     }
 
-    public interface OnPackagesChangedListener{
-        void onPackagesChanged(Uri uriOfChangedContentProviderEndpoint);
-        void onPackageInserted(Cursor newCursor, Uri uriOfChangedContentProviderEndpoint);
-    }
 }
