@@ -32,6 +32,7 @@ public class PackagesProvider extends ContentProvider {
 
     static final int DELETE_PACKAGE_URI_ID = 104;
 
+    public static final int INSERTED_PACKAGE_URI_ID = 105;
 
     // variable to access the UriMatcher object to find what Uri was called.
     public static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -63,6 +64,8 @@ public class PackagesProvider extends ContentProvider {
         uriMatcher.addURI(PackagesContract.CONTENT_AUTHORITY, PackagesContract.PATH_PACKAGES +
                 "/" + PackagesContract.PackageEntry.PATH_DELETE + "/#", DELETE_PACKAGE_URI_ID);
 
+        uriMatcher.addURI(PackagesContract.CONTENT_AUTHORITY, PackagesContract.PATH_PACKAGES +
+                "/" + PackagesContract.PackageEntry.PATH_INSERT + "/#", INSERTED_PACKAGE_URI_ID);
 
         return uriMatcher;
     }
@@ -137,6 +140,7 @@ public class PackagesProvider extends ContentProvider {
 
                 uriToReturn = ContentUris.withAppendedId(PackagesContract.PackageEntry
                         .CONTENT_URI_INSERT, id);
+                Log.d("hello", uriToReturn.toString());
             }
 
             else{
@@ -150,7 +154,7 @@ public class PackagesProvider extends ContentProvider {
             uri);
         }
 
-        getContext().getContentResolver().notifyChange(uri, null);
+        getContext().getContentResolver().notifyChange(uriToReturn, null);
         db.close();
 
         return uriToReturn;

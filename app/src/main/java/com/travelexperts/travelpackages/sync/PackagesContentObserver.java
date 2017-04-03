@@ -41,15 +41,18 @@ public class PackagesContentObserver extends ContentObserver {
     @Override
     public void onChange(boolean selfChange, Uri uri) {
 
-        mCallback.onPackagesChanged(uri);
+        //mCallback.onPackagesChanged(uri);
         Cursor rows = mContextOfObserver.getContentResolver().query(PackagesContract.PackageEntry
                         .CONTENT_URI,
                 null, null, null, null);
 
-        mPackagesAdapter.swapCursor(rows);
+        //mPackagesAdapter.swapCursor(rows);
+
+        mPackagesAdapter.onPackageInserted(rows, uri);
     }
 
     public interface OnPackagesChangedListener{
         void onPackagesChanged(Uri uriOfChangedContentProviderEndpoint);
+        void onPackageInserted(Cursor newCursor, Uri uriOfChangedContentProviderEndpoint);
     }
 }

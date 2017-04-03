@@ -19,8 +19,7 @@ import com.travelexperts.travelpackages.sync.PackagesContentObserver;
  * Created by 468364 on 3/31/2017.
  */
 
-public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.PackageViewHolder>
-        implements PackagesContentObserver.OnPackagesChangedListener {
+public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.PackageViewHolder> {
 
 
     private final Context mContext;
@@ -35,7 +34,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
     public void swapCursor(Cursor newCursor){
         Log.d(PackagesAdapter.class.getSimpleName(), "Cursor Swapped");
         mPackages = newCursor;
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     public PackagesAdapter(Context context, Cursor packages) {
@@ -49,6 +48,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
      * @param parent: parent viewgroup
      * @param viewType: no idea what this does
      * @return empty viewholder object for a package item
+     *
      */
     @Override
     public PackageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -84,7 +84,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
         return mPackages.getInt(mPackages.getColumnIndex("_id"));
     }
 
-    @Override
+
     public void onPackagesChanged(Uri uriOfChangedContentProviderEndpoint) {
 
         // TODO: implement these methods
@@ -92,6 +92,23 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
         this.notifyItemInserted();
         this.notifyItemRemoved();*/
     }
+
+
+    public void onPackageInserted(Cursor newCursor, Uri uriOfChangedContentProviderEndpoint) {
+        Log.d("hello from adapter", String.valueOf(uriOfChangedContentProviderEndpoint));
+        if (PackagesProvider.sUriMatcher.match(uriOfChangedContentProviderEndpoint) ==
+                PackagesProvider.INSERTED_PACKAGE_URI_ID){
+            String idOfInsertedPackage = uriOfChangedContentProviderEndpoint.getPathSegments()
+                    .get(2);
+            Log.d("hello from adapter", String.valueOf(uriOfChangedContentProviderEndpoint));
+            swapCursor(newCursor);
+            notifyItemInserted(Integer.parseInt(idOfInsertedPackage));
+        }
+
+
+    }
+
+
 
     public static class PackageViewHolder extends RecyclerView.ViewHolder {
 

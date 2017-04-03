@@ -72,15 +72,14 @@ public class PackagesActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 ContentValues testRow = new ContentValues();
-                testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, "test name");
+                testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, "HI");
                 testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, "start date");
                 testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, "end date");
                 testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, "test description");
                 testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, 1235.12);
                 testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
 
-                mContext.getContentResolver().insert(PackagesContract.PackageEntry
-                        .CONTENT_URI, testRow);
+                mContext.getContentResolver().insert(PackagesContract.PackageEntry.CONTENT_URI_INSERT, testRow);
 
                 mContext.getContentResolver().delete(PackagesContract.PackageEntry.CONTENT_URI,
                         "_id = ?",
@@ -129,7 +128,7 @@ public class PackagesActivity extends AppCompatActivity
 
 
 
-        ContentValues testRow = new ContentValues();
+        /*ContentValues testRow = new ContentValues();
         testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, "test name");
         testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, "start date");
         testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, "end date");
@@ -138,7 +137,7 @@ public class PackagesActivity extends AppCompatActivity
         testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
 
         mContext.getContentResolver().insert(PackagesContract.PackageEntry
-                .CONTENT_URI, testRow);
+                .CONTENT_URI, testRow);*/
 
 
 
