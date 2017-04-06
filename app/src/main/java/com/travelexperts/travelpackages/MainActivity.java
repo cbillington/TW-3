@@ -3,7 +3,6 @@ package com.travelexperts.travelpackages;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -22,8 +21,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
-import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.fragments.all_tab;
 import com.travelexperts.travelpackages.fragments.new_tab;
 import com.travelexperts.travelpackages.fragments.popular_tab;
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView
     /**
      * The {@link ViewPager} that will host the section contents.
      */
+    private TextView tvDesc;
     private ViewPager mViewPager;
     private PackagesContentObserver mPackagesObserver;
 
@@ -57,6 +57,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // toggle_content
+        tvDesc = (TextView) findViewById(R.id.tvDesc);
+        //hides till clicked
+        tvDesc.setVisibility(View.GONE);
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -108,7 +114,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView
         NetworkTasks.getCustomerFromNetwork(this, 143);
 
     }
-
+    //toggles visibility for cardview
+    public void toggle_contents (View c){
+        tvDesc.setVisibility(tvDesc.isShown()
+        ? View.GONE
+        :View.VISIBLE);
+    }
     //navigation drawer
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
