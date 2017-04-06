@@ -65,10 +65,11 @@ public class PackagesDbHelper extends SQLiteOpenHelper {
                 .append(" (")
                 .append(PackageEntry._ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT,")
                 .append(PackageEntry.COLUMN_PACKAGE_NAME).append(" TEXT, ")
-                .append(PackageEntry.COLUMN_PACKAGE_START_DATE).append(" TEXT, ")
+                .append(PackageEntry.COLUMN_PACKAGE_START_DATE).append(" REAL, ")
                 .append(PackageEntry.COLUMN_PACKAGE_END_DATE).append(" TEXT, ")
                 .append(PackageEntry.COLUMN_PACKAGE_DESCRIPTION).append(" TEXT, ")
                 .append(PackageEntry.COLUMN_PACKAGE_BASE_PRICE).append(" REAL, ")
+                .append(PackageEntry.COLUMN_PACKAGE_IMAGE_URL).append(" TEXT, ")
                 .append(PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION).append(" REAL); ");
 
         return sb.toString();

@@ -4,10 +4,11 @@
              android:layout_height="match_parent"
              tools:context="com.travelexperts.travelpackages.fragments.PopularPackagesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_packages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Polular Packages Fragment"/>
+        android:layout_height="wrap_content"
+        />
 
 </FrameLayout>

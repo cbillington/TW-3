@@ -64,29 +64,10 @@ public class PackagesActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);*/
 
-        final TextView packagesJsonTextView = (TextView)findViewById(R.id.tv_packages_json);
+        //final TextView packagesJsonTextView = (TextView)findViewById(R.id.tv_packages_json);
 
 
-        Button btnTestInsert = (Button) findViewById(R.id.btn_test_insert2);
-        btnTestInsert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ContentValues testRow = new ContentValues();
-                testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, "HI");
-                testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, "start date");
-                testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, "end date");
-                testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, "test description");
-                testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, 1235.12);
-                testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
 
-                mContext.getContentResolver().insert(PackagesContract.PackageEntry.CONTENT_URI_INSERT, testRow);
-
-                mContext.getContentResolver().delete(PackagesContract.PackageEntry.CONTENT_URI,
-                        "_id = ?",
-                        new String[]{"6"});
-
-            }
-        });
 
         /*RestClient restClient = new RestClient();
 

@@ -3,13 +3,16 @@ package com.travelexperts.travelpackages.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.travelexperts.travelpackages.R;
 import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.data.PackagesProvider;
@@ -34,7 +37,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
     public void swapCursor(Cursor newCursor){
         Log.d(PackagesAdapter.class.getSimpleName(), "Cursor Swapped");
         mPackages = newCursor;
-        //notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     public PackagesAdapter(Context context, Cursor packages) {
@@ -56,7 +59,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
         LayoutInflater li = LayoutInflater.from(mContext);
         View viewToReturn = li.inflate(R.layout.package_list_item, parent, false);
 
-        return new PackageViewHolder(viewToReturn);
+        return new PackageViewHolder(viewToReturn, mContext);
     }
 
     /**
@@ -137,15 +140,18 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
 
     public static class PackageViewHolder extends RecyclerView.ViewHolder {
 
+        private final Context mContext;
         TextView mPackageNameTextView;
         TextView mPackagePriceTextView;
+        CardView mPackageCardView;
+        ImageView mPackageImageView;
 
         /**
          * Constructor is responsible for caching the view object.
          * @param itemView: this is the inflated view layout for a single item.
          *
          */
-        public PackageViewHolder(View itemView) {
+        public PackageViewHolder(View itemView, Context context) {
             super(itemView);
 
             /*
@@ -153,8 +159,11 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
                 general view object. This is the inflated item object to cache.
 
              */
+            mPackageCardView = (CardView)itemView.findViewById(R.id.cv_packages);
             mPackageNameTextView = (TextView) itemView.findViewById(R.id.tv_package_name);
             mPackagePriceTextView = (TextView) itemView.findViewById(R.id.tv_package_price);
+            mPackageImageView = (ImageView)itemView.findViewById(R.id.iv_package);
+            mContext = context;
         }
 
         /**
@@ -168,9 +177,13 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
                     .COLUMN_PACKAGE_NAME);
             int packagePriceIndex = packageRow.getColumnIndex(PackagesContract.PackageEntry
                     .COLUMN_PACKAGE_BASE_PRICE);
+            int packageImgUrl = packageRow.getColumnIndex(PackagesContract.PackageEntry.COLUMN_PACKAGE_IMAGE_URL);
+
             Log.d("hello", packageRow.getString(0));
             mPackageNameTextView.setText(packageRow.getString(packageNameIndex));
             mPackagePriceTextView.setText(packageRow.getString(packagePriceIndex));
+            //Glide.with(mContext).load(packageRow.getString(packageImgUrl)).into
+            // (mPackageImageView);
 
         }
 

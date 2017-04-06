@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_sort"
+        android:title="Sort"
+        app:showAsAction="always">
+
+        <menu>
+            <group android:checkableBehavior="all">
+                <item
+                    android:id="@+id/action_sort_date"
+                    android:title="Date"
+                    android:checkable="true"
+                    android:checked="true"/>
+                <item
+                    android:id="@+id/action_sort_price"
+                    android:title="Price"/>
+            </group>
+        </menu>
+    </item>
+
+
+</menu>

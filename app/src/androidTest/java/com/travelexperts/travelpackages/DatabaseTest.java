@@ -179,6 +179,7 @@ public class DatabaseTest {
         testValues.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, "test description");
         testValues.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, 1235.12);
         testValues.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
+        testValues.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_IMAGE_URL, "http://i.imgur.com/uDvJhu0.jpg");
 
         /* Insert ContentValues into database and get first row ID back */
         long firstRowId = database.insert(

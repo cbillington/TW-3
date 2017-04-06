@@ -87,7 +87,8 @@ public class PackagesProvider extends ContentProvider {
 
         switch(uriId){
             case ALL_PACKAGES_URI_ID:
-                cursorToReturn = getAllPackages(db);
+                cursorToReturn = db.query(PackagesContract.PackageEntry.TABLE_NAME, null, null, null, null, null,
+                        sortOrder);
                 break;
             case UNIQUE_PACKAGE_URI_ID:
                 cursorToReturn = getPackage(db, passedUri.getPathSegments().get(1));
@@ -96,6 +97,7 @@ public class PackagesProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri: " + passedUri.toString());
         }
 
+        cursorToReturn.setNotificationUri(getContext().getContentResolver(), passedUri);
         return cursorToReturn;
     }
 

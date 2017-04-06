@@ -68,6 +68,8 @@ public class PackagesContract {
         public static final String COLUMN_PACKAGE_DESCRIPTION = "PkgDesc";
         public static final String COLUMN_PACKAGE_BASE_PRICE = "PkgBasePrice";
         public static final String COLUMN_PACKAGE_AGENCY_COMMISSION = "PkgAgencyCommission";
+        public static final String COLUMN_PACKAGE_IMAGE_URL = "PkgImgUrl";
+
     }
 
     public static final class BookingEntry implements BaseColumns {
