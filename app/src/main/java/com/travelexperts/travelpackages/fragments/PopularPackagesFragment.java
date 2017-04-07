@@ -64,16 +64,19 @@ public class PopularPackagesFragment extends Fragment implements OnPackagesSorte
 
 
                 // initialize test data.
+
+
                 mContext = getActivity();
-                for (int i = 0; i < 500; i++ ){
+                for (int i = 0; i < 10; i++ ){
                     Random rand = new Random();
-                    Long n = rand.nextLong();
+                    Long randDate = rand.nextLong();
+                    Long randPrice = rand.nextLong();
                     ContentValues testRow = new ContentValues();
                     testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, "test name");
-                    testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, n);
+                    testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, randDate);
                     testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, "end date");
                     testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, "test description");
-                    testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, n);
+                    testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, randPrice);
                     testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
                     testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_IMAGE_URL, "http://i.imgur.com/uDvJhu0.jpg");
                     mContext.getContentResolver().insert(PackagesContract.PackageEntry.CONTENT_URI_INSERT, testRow);

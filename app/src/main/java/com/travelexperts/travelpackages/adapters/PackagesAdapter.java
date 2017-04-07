@@ -164,6 +164,13 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
             mPackagePriceTextView = (TextView) itemView.findViewById(R.id.tv_package_price);
             mPackageImageView = (ImageView)itemView.findViewById(R.id.iv_package);
             mContext = context;
+
+            mPackageImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
 
         /**
@@ -182,7 +189,8 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
             Log.d("hello", packageRow.getString(0));
             mPackageNameTextView.setText(packageRow.getString(packageNameIndex));
             mPackagePriceTextView.setText(packageRow.getString(packagePriceIndex));
-            Glide.with(mContext).load(packageRow.getString(packageImgUrl)).into(mPackageImageView);
+            //Glide.with(mContext).load(packageRow.getString(packageImgUrl)).into
+            // (mPackageImageView);
 
         }
 

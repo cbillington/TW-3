@@ -11,7 +11,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,7 +31,7 @@ import com.travelexperts.travelpackages.sync.OnPackagesSortedListener;
 
 public class NavigationTestActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoaderManager
-        .LoaderCallbacks<Cursor> {
+        .LoaderCallbacks<Cursor>, SearchView.OnQueryTextListener {
 
     private OnPackagesSortedListener mCallback;
 
@@ -54,10 +56,9 @@ public class NavigationTestActivity extends AppCompatActivity
             }
         });
 
-        SQLiteDatabase db = new PackagesDbHelper(this).getWritableDatabase();
-        db.needUpgrade(2);
-        //db.execSQL("DROP TABLE IF EXISTS " + PackagesContract.PackageEntry.TABLE_NAME);
 
+        PackagesDbHelper db = new PackagesDbHelper(this);
+        db.getWritableDatabase();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -87,6 +88,9 @@ public class NavigationTestActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation_test, menu);
+        final SearchView searchItem = (SearchView)menu.findItem(R.id.action_search).getActionView();
+
+        searchItem.setOnQueryTextListener(this);
         return true;
     }
 
@@ -195,5 +199,15 @@ public class NavigationTestActivity extends AppCompatActivity
 
     public void setmCallback(OnPackagesSortedListener mCallback) {
         this.mCallback = mCallback;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }

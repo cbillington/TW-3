@@ -25,5 +25,12 @@
         </menu>
     </item>
 
+    <item
+        android:id="@+id/action_search"
+        android:title="S"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always"
+        />
+
 
 </menu>
