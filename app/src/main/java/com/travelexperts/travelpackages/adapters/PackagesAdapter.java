@@ -182,8 +182,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
             Log.d("hello", packageRow.getString(0));
             mPackageNameTextView.setText(packageRow.getString(packageNameIndex));
             mPackagePriceTextView.setText(packageRow.getString(packagePriceIndex));
-            //Glide.with(mContext).load(packageRow.getString(packageImgUrl)).into
-            // (mPackageImageView);
+            Glide.with(mContext).load(packageRow.getString(packageImgUrl)).into(mPackageImageView);
 
         }
 

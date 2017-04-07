@@ -65,7 +65,7 @@ public class PopularPackagesFragment extends Fragment implements OnPackagesSorte
 
                 // initialize test data.
                 mContext = getActivity();
-                for (int i = 0; i < 20; i++ ){
+                for (int i = 0; i < 500; i++ ){
                     Random rand = new Random();
                     Long n = rand.nextLong();
                     ContentValues testRow = new ContentValues();

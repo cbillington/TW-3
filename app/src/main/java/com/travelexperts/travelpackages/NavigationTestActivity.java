@@ -1,5 +1,6 @@
 package com.travelexperts.travelpackages;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -20,8 +21,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TableLayout;
 
+import com.travelexperts.travelpackages.adapters.PackageTabPagerAdapter;
 import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.data.PackagesDbHelper;
 import com.travelexperts.travelpackages.sync.OnPackagesSortedListener;
@@ -129,7 +130,8 @@ public class NavigationTestActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
+            Intent openAccountActivity = new Intent(this, AccountActivity.class);
+            startActivity(openAccountActivity);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
