@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "690323239888",
+    "firebase_url": "https://travelexperts-589ca.firebaseio.com",
+    "project_id": "travelexperts-589ca",
+    "storage_bucket": "travelexperts-589ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690323239888:android:a762ea83b53edb75",
+        "android_client_info": {
+          "package_name": "com.travelexperts.travelpackages"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "690323239888-74gkffnej4s0eievgteaisi47dbekm61.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.travelexperts.travelpackages",
+            "certificate_hash": "3f92880c8c63b6cdde54ebc854b51a6742e63a71"
+          }
+        },
+        {
+          "client_id": "690323239888-t5lkr6pndamo4scccnjhbgp6bu778a5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCouGdFouC5zrteWKny5KsQT9cO6pnKixQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "690323239888-t5lkr6pndamo4scccnjhbgp6bu778a5r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
