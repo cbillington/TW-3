@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -15,13 +14,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.travelexperts.travelpackages.NavigationTestActivity;
 import com.travelexperts.travelpackages.R;
 import com.travelexperts.travelpackages.adapters.PackagesAdapter;
 import com.travelexperts.travelpackages.data.PackagesContract;
-import com.travelexperts.travelpackages.data.PackagesDbHelper;
 import com.travelexperts.travelpackages.sync.OnPackagesSortedListener;
 import com.travelexperts.travelpackages.sync.PackagesContentObserver;
 
@@ -38,6 +36,8 @@ public class PopularPackagesFragment extends Fragment implements OnPackagesSorte
     private RecyclerView mRecyclerView;
     private PackagesAdapter mPackagesAdapter;
     private PackagesContentObserver mPackagesObserver;
+    TextView mPackageDescTextView;
+
 
     public PopularPackagesFragment() {
         // Required empty public constructor
@@ -60,12 +60,9 @@ public class PopularPackagesFragment extends Fragment implements OnPackagesSorte
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
                 // initialize test data.
                 mContext = getActivity();
-                for (int i = 0; i < 500; i++ ){
+                for (int i = 0; i < 10; i++ ){
                     Random rand = new Random();
                     Long n = rand.nextLong();
                     ContentValues testRow = new ContentValues();
@@ -81,6 +78,8 @@ public class PopularPackagesFragment extends Fragment implements OnPackagesSorte
 
                 mPackagesCursor = mContext.getContentResolver().query(PackagesContract
                         .PackageEntry.CONTENT_URI, null, null, null, null);
+
+
     }
 
     @Override

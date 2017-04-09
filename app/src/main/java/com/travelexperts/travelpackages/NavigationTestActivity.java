@@ -55,7 +55,7 @@ public class NavigationTestActivity extends AppCompatActivity
         });
 
         SQLiteDatabase db = new PackagesDbHelper(this).getWritableDatabase();
-        db.needUpgrade(2);
+
         //db.execSQL("DROP TABLE IF EXISTS " + PackagesContract.PackageEntry.TABLE_NAME);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

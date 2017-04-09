@@ -3,6 +3,8 @@ package com.travelexperts.travelpackages.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.travelexperts.travelpackages.R;
 import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.data.PackagesProvider;
-import com.travelexperts.travelpackages.sync.PackagesContentObserver;
 
 
 /**
@@ -141,10 +142,21 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
     public static class PackageViewHolder extends RecyclerView.ViewHolder {
 
         private final Context mContext;
+        TextView mPackageDescTextView;
+        TextView mPackageStartDateTextView;
+        TextView mPackageEndDateTextView;
         TextView mPackageNameTextView;
         TextView mPackagePriceTextView;
         CardView mPackageCardView;
         ImageView mPackageImageView;
+        FloatingActionButton mPackageToggleOn;
+        FloatingActionButton mPackageToggleOff;
+        FloatingActionButton mPackageFavoriteOn;
+        FloatingActionButton mPackageFavoriteOff;
+        FloatingActionButton mPackageViewProducts;
+        ConstraintLayout DropDownLayout;
+
+
 
         /**
          * Constructor is responsible for caching the view object.
@@ -159,12 +171,107 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
                 general view object. This is the inflated item object to cache.
 
              */
-            mPackageCardView = (CardView)itemView.findViewById(R.id.cv_packages);
-            mPackageNameTextView = (TextView) itemView.findViewById(R.id.tv_package_name);
-            mPackagePriceTextView = (TextView) itemView.findViewById(R.id.tv_package_price);
-            mPackageImageView = (ImageView)itemView.findViewById(R.id.iv_package);
+            mPackageCardView = (CardView)itemView.findViewById(R.id.cvAllTab);
+            mPackageNameTextView = (TextView) itemView.findViewById(R.id.tvTitle);
+            mPackageDescTextView = (TextView) itemView.findViewById(R.id.tvDesc);
+            mPackageStartDateTextView = (TextView) itemView.findViewById(R.id.tvStart);
+            mPackageEndDateTextView = (TextView) itemView.findViewById(R.id.tvEnd);
+            mPackagePriceTextView = (TextView) itemView.findViewById(R.id.tvPrice);
+            mPackageImageView = (ImageView)itemView.findViewById(R.id.ivPhoto);
+            mPackageToggleOn = (FloatingActionButton) itemView.findViewById(R.id.btnToggleOn);
+            mPackageToggleOff = (FloatingActionButton) itemView.findViewById(R.id.btnToggleOff);
+            mPackageFavoriteOn = (FloatingActionButton) itemView.findViewById(R.id.btnStarOn);
+            mPackageFavoriteOff = (FloatingActionButton) itemView.findViewById(R.id.btnStarOff);
+            mPackageViewProducts = (FloatingActionButton) itemView.findViewById(R.id.btnPackages);
+            DropDownLayout = (ConstraintLayout) itemView.findViewById(R.id.cnstDropDown);
+
             mContext = context;
+
+            // toggle_content
+            mPackageDescTextView = (TextView) itemView.findViewById(R.id.tvDesc);
+            //hides till clicked
+            DropDownLayout.setVisibility(View.GONE);
+            mPackageToggleOff.setVisibility(View.GONE);
+
+
+            mPackageToggleOn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(DropDownLayout.isShown()){//when drop down is up
+                        DropDownLayout.setVisibility(View.GONE);
+                        mPackageDescTextView.setVisibility(View.GONE);
+                        mPackageFavoriteOn.setVisibility(View.GONE);
+                        mPackageFavoriteOff.setVisibility(View.GONE);
+                        mPackageViewProducts.setVisibility(View.GONE);
+                        /*DropDownLayout.animate()
+                                .alpha(1.0f)
+                                .setDuration(300)
+                                .translationY(0);*/
+
+                    }
+                    else{//when drop down is down
+                        DropDownLayout.setVisibility(View.VISIBLE);
+                        mPackageDescTextView.setVisibility(View.VISIBLE);
+                        mPackageFavoriteOn.setVisibility(View.VISIBLE);
+                        mPackageFavoriteOff.setVisibility(View.VISIBLE);
+                        mPackageViewProducts.setVisibility(View.VISIBLE);
+                        mPackageToggleOff.setVisibility(View.VISIBLE);
+                        mPackageToggleOn.setVisibility(View.GONE);
+                        /*DropDownLayout.animate()
+                                .alpha(1.0f)
+                                .setDuration(300)
+                                .translationY(DropDownLayout.getHeight());*/
+                    }
+                }
+            });
+            mPackageToggleOff.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(DropDownLayout.isShown()){
+                        DropDownLayout.setVisibility(View.GONE);
+                        mPackageDescTextView.setVisibility(View.GONE);
+                        mPackageFavoriteOn.setVisibility(View.GONE);
+                        mPackageFavoriteOff.setVisibility(View.GONE);
+                        mPackageViewProducts.setVisibility(View.GONE);
+                        mPackageToggleOff.setVisibility(View.GONE);
+                        mPackageToggleOn.setVisibility(View.VISIBLE);
+
+                    }
+                    /*else{
+                        DropDownLayout.setVisibility(View.GONE);
+                        mPackageDescTextView.setVisibility(View.GONE);
+                        mPackageFavoriteOn.setVisibility(View.GONE);
+                        mPackageFavoriteOff.setVisibility(View.GONE);
+                        mPackageViewPackage.setVisibility(View.GONE);
+                    }*/
+                }
+            });
+            mPackageFavoriteOff.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                        //input transfer to favorited packages
+                        mPackageFavoriteOn.setVisibility(View.VISIBLE);
+                        mPackageFavoriteOff.setVisibility(View.GONE);
+                }
+            });
+            mPackageFavoriteOn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //delete package from favorited package
+                    mPackageFavoriteOff.setVisibility(View.VISIBLE);
+                    mPackageFavoriteOn.setVisibility(View.GONE);
+                }
+            });
+            mPackageViewProducts.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //view products
+                }
+            });
         }
+
 
         /**
          * this method takes a cursor and binds the viewholder object with the data inside the
@@ -178,10 +285,19 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
             int packagePriceIndex = packageRow.getColumnIndex(PackagesContract.PackageEntry
                     .COLUMN_PACKAGE_BASE_PRICE);
             int packageImgUrl = packageRow.getColumnIndex(PackagesContract.PackageEntry.COLUMN_PACKAGE_IMAGE_URL);
+            int packageStartDateIndex = packageRow.getColumnIndex(PackagesContract.PackageEntry
+                    .COLUMN_PACKAGE_START_DATE);
+            int packageEndDateIndex = packageRow.getColumnIndex(PackagesContract.PackageEntry
+                    .COLUMN_PACKAGE_END_DATE);
+            int packageDescriptionIndex = packageRow.getColumnIndex(PackagesContract.PackageEntry
+                    .COLUMN_PACKAGE_DESCRIPTION);
 
             Log.d("hello", packageRow.getString(0));
             mPackageNameTextView.setText(packageRow.getString(packageNameIndex));
             mPackagePriceTextView.setText(packageRow.getString(packagePriceIndex));
+            mPackageStartDateTextView.setText(packageRow.getString(packageStartDateIndex));
+            mPackageEndDateTextView.setText(packageRow.getString(packageEndDateIndex));
+            mPackageDescTextView.setText(packageRow.getString(packageDescriptionIndex));
             Glide.with(mContext).load(packageRow.getString(packageImgUrl)).into(mPackageImageView);
 
         }
