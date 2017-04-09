@@ -1,6 +1,7 @@
 package com.travelexperts.travelpackages.fragments;
 
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,6 +25,7 @@ import com.travelexperts.travelpackages.sync.OnPackagesSortedListener;
 import com.travelexperts.travelpackages.sync.PackagesContentObserver;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,21 +58,44 @@ public class PopularPackagesFragment extends Fragment implements OnPackagesSorte
      * @param savedInstanceState
      *
      */
+    @TargetApi(25)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
                 // initialize test data.
+
+                Long randDate2 = ThreadLocalRandom.current().nextLong(123456, 1234567890);
                 mContext = getActivity();
+<<<<<<< HEAD
                 for (int i = 0; i < 10; i++ ){
                     Random rand = new Random();
                     Long n = rand.nextLong();
+=======
+                Long randPrice2 = ThreadLocalRandom.current().nextLong(500, 4500);
+
+                ContentValues testRow2 = new ContentValues();
+                testRow2.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, "search test");
+                testRow2.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, randDate2);
+                testRow2.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, "end date");
+                testRow2.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, "test " +
+                        "description");
+                testRow2.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, randPrice2);
+                testRow2.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
+                testRow2.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_IMAGE_URL, "http://i" +
+                        ".imgur.com/uDvJhu0.jpg");
+                mContext.getContentResolver().insert(PackagesContract.PackageEntry
+                        .CONTENT_URI_INSERT, testRow2);
+                for (int i = 0; i < 10; i++ ){
+
+>>>>>>> c02c7c6ea65d9934f5523b18b97af82b55d9c5aa
                     ContentValues testRow = new ContentValues();
                     testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, "test name");
-                    testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, n);
+                    testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, randDate2);
                     testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, "end date");
                     testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, "test description");
-                    testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, n);
+                    testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE,
+                            randPrice2);
                     testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, 12.12);
                     testRow.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_IMAGE_URL, "http://i.imgur.com/uDvJhu0.jpg");
                     mContext.getContentResolver().insert(PackagesContract.PackageEntry.CONTENT_URI_INSERT, testRow);
@@ -108,4 +133,7 @@ public class PopularPackagesFragment extends Fragment implements OnPackagesSorte
     public void OnPackagesSorted(Cursor newSortedPackages) {
         mPackagesAdapter.swapCursor(newSortedPackages);
     }
+
+
+
 }

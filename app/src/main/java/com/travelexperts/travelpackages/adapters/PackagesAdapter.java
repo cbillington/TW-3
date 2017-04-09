@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +20,8 @@ import com.bumptech.glide.Glide;
 import com.travelexperts.travelpackages.R;
 import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.data.PackagesProvider;
+
+import java.util.ArrayList;
 
 
 /**
@@ -29,7 +33,6 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
 
     private final Context mContext;
     private Cursor mPackages;
-
     /**
      * This method is used to swap the cursor that contains new package data.
      * @param newCursor: newCursor is the updated packages table.
@@ -44,6 +47,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
     public PackagesAdapter(Context context, Cursor packages) {
         mContext = context;
         mPackages = packages;
+
     }
 
     /**
@@ -135,11 +139,14 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
 
     }
 
+
+
+
     // TODO: implement methods for onPackageModifed, onPackageDeleted
 
 
 
-    public static class PackageViewHolder extends RecyclerView.ViewHolder {
+    public static class PackageViewHolder extends RecyclerView.ViewHolder{
 
         private final Context mContext;
         TextView mPackageDescTextView;
@@ -187,6 +194,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
 
             mContext = context;
 
+<<<<<<< HEAD
             // toggle_content
             mPackageDescTextView = (TextView) itemView.findViewById(R.id.tvDesc);
             //hides till clicked
@@ -268,6 +276,12 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
                 @Override
                 public void onClick(View v) {
                     //view products
+=======
+            mPackageImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+>>>>>>> c02c7c6ea65d9934f5523b18b97af82b55d9c5aa
                 }
             });
         }
@@ -295,12 +309,18 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
             Log.d("hello", packageRow.getString(0));
             mPackageNameTextView.setText(packageRow.getString(packageNameIndex));
             mPackagePriceTextView.setText(packageRow.getString(packagePriceIndex));
+<<<<<<< HEAD
             mPackageStartDateTextView.setText(packageRow.getString(packageStartDateIndex));
             mPackageEndDateTextView.setText(packageRow.getString(packageEndDateIndex));
             mPackageDescTextView.setText(packageRow.getString(packageDescriptionIndex));
             Glide.with(mContext).load(packageRow.getString(packageImgUrl)).into(mPackageImageView);
+=======
+            //Glide.with(mContext).load(packageRow.getString(packageImgUrl)).into
+            // (mPackageImageView);
+>>>>>>> c02c7c6ea65d9934f5523b18b97af82b55d9c5aa
 
         }
+
 
 
     }

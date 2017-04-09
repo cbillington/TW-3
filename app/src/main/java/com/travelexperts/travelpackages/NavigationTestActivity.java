@@ -8,10 +8,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,12 +29,15 @@ import android.view.MenuItem;
 import com.travelexperts.travelpackages.adapters.PackageTabPagerAdapter;
 import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.data.PackagesDbHelper;
+import com.travelexperts.travelpackages.fragments.PackageSearchFragment;
 import com.travelexperts.travelpackages.sync.OnPackagesSortedListener;
 
 public class NavigationTestActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoaderManager
-        .LoaderCallbacks<Cursor> {
+        .LoaderCallbacks<Cursor>, SearchView.OnQueryTextListener {
 
+    private static final int ID_PACKAGES_QUERY_LOADER = 300;
+    public static final String TEXT_CHANGED_KEY = "text-changed-key";
     private OnPackagesSortedListener mCallback;
 
     private ViewPager mPackageTabViewPager;
@@ -54,10 +61,16 @@ public class NavigationTestActivity extends AppCompatActivity
             }
         });
 
+<<<<<<< HEAD
         SQLiteDatabase db = new PackagesDbHelper(this).getWritableDatabase();
 
         //db.execSQL("DROP TABLE IF EXISTS " + PackagesContract.PackageEntry.TABLE_NAME);
+=======
+>>>>>>> c02c7c6ea65d9934f5523b18b97af82b55d9c5aa
 
+        PackagesDbHelper db = new PackagesDbHelper(this);
+        db.getWritableDatabase();
+        db.close();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -87,6 +100,9 @@ public class NavigationTestActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation_test, menu);
+        final SearchView searchItem = (SearchView)menu.findItem(R.id.action_search).getActionView();
+
+        searchItem.setOnQueryTextListener(this);
         return true;
     }
 
@@ -109,7 +125,10 @@ public class NavigationTestActivity extends AppCompatActivity
         if (id == R.id.action_sort_date){
             getSupportLoaderManager().initLoader(ID_PACKAGES_BY_DATE_LOADER, null, this);
         }
-
+        if (id == R.id.action_search_fragment){
+            Intent openSearchActivity = new Intent(this, PackageSearchActivity.class);
+            startActivity(openSearchActivity);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -174,6 +193,30 @@ public class NavigationTestActivity extends AppCompatActivity
                         sortOrderDate);
 
 
+
+            case ID_PACKAGES_QUERY_LOADER:
+                String query = args.getString(TEXT_CHANGED_KEY);
+                Log.d("query", query);
+                Uri packagesBySearchQueryUri = PackagesContract.PackageEntry.CONTENT_URI;
+                String packageNameColumn = PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME;
+
+                String whereClause = "PkgName LIKE ?";
+                String[] selectionClause = {"%" + query + "%"};
+
+                if (query.isEmpty() || query.equals("empty")){
+
+                    return new CursorLoader(this,
+                            packagesBySearchQueryUri,null, null, null, null);
+                }
+                else {
+                    return new CursorLoader(this,
+                            packagesBySearchQueryUri,
+                            null,
+                            whereClause,
+                            selectionClause,
+                            null);
+                }
+
             default:
                 throw new RuntimeException("Loader not implemented " + id);
 
@@ -182,7 +225,7 @@ public class NavigationTestActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        Log.d("hello", String.valueOf(data.getCount()));
         mCallback.OnPackagesSorted(data);
 
     }
@@ -195,5 +238,31 @@ public class NavigationTestActivity extends AppCompatActivity
 
     public void setmCallback(OnPackagesSortedListener mCallback) {
         this.mCallback = mCallback;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        String queryText = newText;
+
+        if(newText.isEmpty()){
+
+            queryText = "empty";
+        }
+
+        Bundle textChanged = new Bundle();
+        textChanged.putString(TEXT_CHANGED_KEY, queryText);
+        Log.d("bundle args", textChanged.getString(TEXT_CHANGED_KEY));
+
+
+        getSupportLoaderManager().restartLoader(ID_PACKAGES_QUERY_LOADER, textChanged, this);
+
+
+
+        return true;
     }
 }

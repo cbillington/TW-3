@@ -38,7 +38,7 @@
 
         <activity
             android:name=".NavigationTestActivity"
-            android:label="@string/title_activity_navigation_test"
+            android:label="Packages"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -49,6 +49,11 @@
         <activity
             android:name=".AccountActivity"
             android:label="@string/title_activity_account"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".PackageSearchActivity"
+            android:label="@string/title_activity_package_search"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

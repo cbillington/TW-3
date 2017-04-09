@@ -87,7 +87,9 @@ public class PackagesProvider extends ContentProvider {
 
         switch(uriId){
             case ALL_PACKAGES_URI_ID:
-                cursorToReturn = db.query(PackagesContract.PackageEntry.TABLE_NAME, null, null, null, null, null,
+
+                cursorToReturn = db.query(PackagesContract.PackageEntry.TABLE_NAME, projection, selection,
+                        selectionArgs, null, null,
                         sortOrder);
                 break;
             case UNIQUE_PACKAGE_URI_ID:
@@ -98,6 +100,7 @@ public class PackagesProvider extends ContentProvider {
         }
 
         cursorToReturn.setNotificationUri(getContext().getContentResolver(), passedUri);
+
         return cursorToReturn;
     }
 

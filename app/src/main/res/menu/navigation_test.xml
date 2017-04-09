@@ -7,9 +7,14 @@
         android:title="@string/action_settings"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_search_fragment"
+        android:title="Search"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_sort"
         android:title="Sort"
-        app:showAsAction="always">
+        app:showAsAction="always"
+        android:icon="@drawable/ic_view_module_white_24dp">
 
         <menu>
             <group android:checkableBehavior="all">
@@ -24,6 +29,13 @@
             </group>
         </menu>
     </item>
+
+    <item
+        android:id="@+id/action_search"
+        android:title="S"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always"
+        />
 
 
 </menu>
