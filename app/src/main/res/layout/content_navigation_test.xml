@@ -8,5 +8,10 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.travelexperts.travelpackages.NavigationTestActivity"
     tools:showIn="@layout/app_bar_navigation_test">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container_search_fragment">
 
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>

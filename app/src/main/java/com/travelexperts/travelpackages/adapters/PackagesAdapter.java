@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +19,8 @@ import com.travelexperts.travelpackages.R;
 import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.data.PackagesProvider;
 import com.travelexperts.travelpackages.sync.PackagesContentObserver;
+
+import java.util.ArrayList;
 
 
 /**
@@ -28,7 +32,6 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
 
     private final Context mContext;
     private Cursor mPackages;
-
     /**
      * This method is used to swap the cursor that contains new package data.
      * @param newCursor: newCursor is the updated packages table.
@@ -43,6 +46,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
     public PackagesAdapter(Context context, Cursor packages) {
         mContext = context;
         mPackages = packages;
+
     }
 
     /**
@@ -134,11 +138,14 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
 
     }
 
+
+
+
     // TODO: implement methods for onPackageModifed, onPackageDeleted
 
 
 
-    public static class PackageViewHolder extends RecyclerView.ViewHolder {
+    public static class PackageViewHolder extends RecyclerView.ViewHolder{
 
         private final Context mContext;
         TextView mPackageNameTextView;
@@ -193,6 +200,7 @@ public class PackagesAdapter extends RecyclerView.Adapter<PackagesAdapter.Packag
             // (mPackageImageView);
 
         }
+
 
 
     }
