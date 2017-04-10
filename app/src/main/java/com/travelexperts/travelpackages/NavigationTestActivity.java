@@ -26,10 +26,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.travelexperts.travelpackages.adapters.PackageTabPagerAdapter;
 import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.data.PackagesDbHelper;
 import com.travelexperts.travelpackages.fragments.PackageSearchFragment;
+import com.travelexperts.travelpackages.sync.NetworkTasks;
 import com.travelexperts.travelpackages.sync.OnPackagesSortedListener;
 
 public class NavigationTestActivity extends AppCompatActivity
@@ -78,6 +80,10 @@ public class NavigationTestActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(mPackageTabViewPager);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        NetworkTasks.getCustomerFromNetwork(this, 143);
+
+        Log.d("hello", FirebaseInstanceId.getInstance().getToken());
     }
 
     @Override

@@ -53,6 +53,7 @@ public class Customer {
     private String custEmail;
     @JsonProperty("agentId")
     private Integer agentId;
+
     @JsonProperty("bookings")
     private List<Booking> bookings = null;
     @JsonIgnore

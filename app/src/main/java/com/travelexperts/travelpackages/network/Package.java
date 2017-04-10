@@ -140,6 +140,7 @@ public class Package implements Parcelable {
                 '}';
     }
 
+    @JsonIgnore
     public ContentValues getContentValues(){
         ContentValues rowToReturn = new ContentValues();
         rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, getPkgName());
@@ -214,4 +215,20 @@ public class Package implements Parcelable {
             return new Package[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Package aPackage = (Package) o;
+
+        return packageId.equals(aPackage.packageId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return packageId.hashCode();
+    }
 }

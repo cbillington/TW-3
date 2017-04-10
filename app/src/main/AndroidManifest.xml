@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDr_TUa6QZL-dXCKS4fi_yAFcozy9KhPIQ"/>
         <activity
             android:name=".PackagesActivity"
             android:label="@string/title_activity_packages"
@@ -35,6 +36,16 @@
         <service
             android:name=".sync.PackagesCacheIntentService"
             android:exported="false"/>
+
+
+        <service
+            android:name=".sync.PackagesMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".NavigationTestActivity"

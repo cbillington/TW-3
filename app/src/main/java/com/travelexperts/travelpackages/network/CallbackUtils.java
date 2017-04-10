@@ -48,4 +48,22 @@ public class CallbackUtils {
             }
         });
     }
+
+    public static void updateCustomerFromCall(Call<Customer> customerCall, final IRestCallback customerUpdateCallback) {
+
+        customerCall.enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+
+                Log.d("CallbackUtils", String.valueOf(response.code()));
+                customerUpdateCallback.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                Log.d("CallbackUtils", "failure");
+                t.printStackTrace();
+            }
+        });
+    }
 }

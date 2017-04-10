@@ -30,6 +30,7 @@ public class NetworkTasks {
 
     public static final String ACTION_GET_PACKAGES_FROM_NETWORK = "get-packages-from-network";
     public static final String ACTION_GET_CUSTOMER_FROM_NETWORK = "get-customer-from-network";
+    public static final String ACTION_UPDATE_CUSTOMER_FROM_NETWORK = "update-customer-from-network";
 
     public static final String CUSTOMER_ID_KEY = "customer-id-key";
 
@@ -42,6 +43,7 @@ public class NetworkTasks {
             int customerId = extras.getInt(CUSTOMER_ID_KEY);
             getCustomerFromNetwork(context, customerId);
         }
+
     }
 
     public static void getCustomerFromNetwork(final Context context, int customerId) {
@@ -58,6 +60,7 @@ public class NetworkTasks {
                 Customer customerFromNetwork = (Customer)response.body();
                 Log.d(TAG, customerFromNetwork.toString());
                 PreferenceUtils.updateCustomer(context, customerFromNetwork);
+                Log.d("NetworkTasks", customerFromNetwork.getCustAddress());
 
             }
         };
@@ -100,5 +103,20 @@ public class NetworkTasks {
         Log.d("hello", "I made it to the getPackagesFromNetwork method");
         CallbackUtils.requestPackagesFromCall(restClient.getApiService().getPackages(), packagesCallback);
 
+    }
+
+    public static void pushCustomerUpdate(final Context context, Customer customerToUpdate){
+
+        RestClient restClient = new RestClient();
+
+        IRestCallback customerUpdateCallback = new IRestCallback() {
+            @Override
+            public void onSuccess(Response response) {
+                Log.d("NetworkTasks", "reached success");
+            }
+        };
+
+        CallbackUtils.updateCustomerFromCall(restClient.getApiService().updateCustomer
+                ("application/json", customerToUpdate), customerUpdateCallback);
     }
 }
