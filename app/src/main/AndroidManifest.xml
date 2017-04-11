@@ -35,6 +35,9 @@
             android:name=".CustomerActivity"
             android:label="Customer"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Package_Details"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <service
             android:name=".sync.PackagesCacheIntentService"
