@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.travelexperts.travelpackages.network.Package;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "items"
@@ -80,6 +81,18 @@ public class WatchlistedPackages {
 
         items.set(packageToRemoveIndex, packageToAdd);
 
+    }
+
+    @JsonIgnore
+    public ArrayList<Integer> getPackageIds(){
+
+        ArrayList<Integer> packageIds = new ArrayList<>();
+
+        for(Package pkg : items){
+            packageIds.add(pkg.getPackageId());
+        }
+
+        return packageIds;
     }
 
 }

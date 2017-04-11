@@ -172,4 +172,5 @@ public class Booking {
         this.additionalProperties.put(name, value);
     }
 
+
 }

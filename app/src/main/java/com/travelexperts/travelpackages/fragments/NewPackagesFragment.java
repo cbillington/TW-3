@@ -56,7 +56,7 @@ public class NewPackagesFragment extends Fragment implements View.OnClickListene
 
         // test the append package to watchlist
         pkgToAppend = new Package();
-        pkgToAppend.setPackageId(1);
+        pkgToAppend.setPackageId(100);
         pkgToAppend.setPkgName("Preference Watchlist Test");
         PreferenceUtils.appendPackageToWatchlist(pkgToAppend, getActivity());
     }

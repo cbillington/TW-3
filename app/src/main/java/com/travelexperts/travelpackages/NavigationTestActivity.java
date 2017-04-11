@@ -1,10 +1,12 @@
 package com.travelexperts.travelpackages;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -25,18 +27,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.travelexperts.travelpackages.adapters.PackageTabPagerAdapter;
 import com.travelexperts.travelpackages.data.PackagesContract;
 import com.travelexperts.travelpackages.data.PackagesDbHelper;
 import com.travelexperts.travelpackages.fragments.PackageSearchFragment;
+import com.travelexperts.travelpackages.network.Customer;
 import com.travelexperts.travelpackages.sync.NetworkTasks;
 import com.travelexperts.travelpackages.sync.OnPackagesSortedListener;
+import com.travelexperts.travelpackages.utils.PreferenceUtils;
+
+import org.w3c.dom.Text;
 
 public class NavigationTestActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LoaderManager
-        .LoaderCallbacks<Cursor>, SearchView.OnQueryTextListener {
+        .LoaderCallbacks<Cursor>, SearchView.OnQueryTextListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int ID_PACKAGES_QUERY_LOADER = 300;
     public static final String TEXT_CHANGED_KEY = "text-changed-key";
@@ -47,6 +55,9 @@ public class NavigationTestActivity extends AppCompatActivity
 
     private static final int ID_PACKAGES_BY_PRICE_LOADER = 100;
     private static final int ID_PACKAGES_BY_DATE_LOADER = 200;
+    private View headerView;
+    private TextView customerName;
+    private TextView customerEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +89,17 @@ public class NavigationTestActivity extends AppCompatActivity
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(mPackageTabViewPager);
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        headerView = navigationView.getHeaderView(0);
+        customerName = (TextView)headerView.findViewById(R.id.tv_customer_name);
+        customerEmail = (TextView)headerView.findViewById(R.id.tv_customer_email);
+
         NetworkTasks.getCustomerFromNetwork(this, 143);
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
 
         Log.d("hello", FirebaseInstanceId.getInstance().getToken());
     }
@@ -138,20 +156,30 @@ public class NavigationTestActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        switch(id){
 
-        } else if (id == R.id.nav_slideshow) {
+            case R.id.nav_profile:
+                Intent openAccountActivity = new Intent(this, AccountActivity.class);
+                startActivity(openAccountActivity);
+                break;
 
-        } else if (id == R.id.nav_manage) {
+            case R.id.nav_search_packages:
+                Intent openSearchActivity = new Intent(this, PackageSearchActivity.class);
+                startActivity(openSearchActivity);
+                break;
 
-        } else if (id == R.id.nav_share) {
+            case R.id.nav_purchases:
+                Intent openBookingsActivity = new Intent(this, BookingsActivity.class);
+                startActivity(openBookingsActivity);
+                break;
 
-        } else if (id == R.id.nav_send) {
-            Intent openAccountActivity = new Intent(this, AccountActivity.class);
-            startActivity(openAccountActivity);
+            case R.id.nav_watchlisted_packages:
+                Intent openWatchlistedPackages = new Intent(this, WatchlistedPackagesActivity
+                        .class);
+                startActivity(openWatchlistedPackages);
         }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -264,5 +292,14 @@ public class NavigationTestActivity extends AppCompatActivity
 
 
         return true;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(PreferenceUtils.KEY_CUSTOMER)){
+            Customer cust = PreferenceUtils.getCustomer(this);
+            customerName.setText(cust.getCustFirstName()+ " " + cust.getCustLastName());
+            customerEmail.setText(cust.getCustEmail());
+        }
     }
 }
