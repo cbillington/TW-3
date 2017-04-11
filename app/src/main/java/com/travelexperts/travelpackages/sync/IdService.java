@@ -14,7 +14,11 @@ public class IdService extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
 
-        String token = FirebaseInstanceId.getInstance().getToken();
-        Log.d("hello", token);
+        try {
+            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            Log.d("Firbase id login", "Refreshed token: " + refreshedToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

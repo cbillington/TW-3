@@ -101,7 +101,7 @@ public class NavigationTestActivity extends AppCompatActivity
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
 
-        Log.d("hello", FirebaseInstanceId.getInstance().getToken());
+        //Log.d("hello", FirebaseInstanceId.getInstance().getToken());
     }
 
     @Override

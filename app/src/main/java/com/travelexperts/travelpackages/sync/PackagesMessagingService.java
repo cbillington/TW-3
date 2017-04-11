@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.travelexperts.travelpackages.utils.NotificationUtils;
 import com.travelexperts.travelpackages.utils.PreferenceUtils;
 import com.travelexperts.travelpackages.utils.WatchlistedPackages;
 
@@ -22,13 +23,13 @@ public class PackagesMessagingService extends FirebaseMessagingService {
 
 
 
-        Log.d(TAG, "message recieved: " + remoteMessage.getFrom());
+        Log.d(TAG, "message recieved");
 
         WatchlistedPackages wp = PreferenceUtils.getWatchlistedPackages(this);
 
         Log.d("hello", String.valueOf(wp.getItems().size()));
 
-
+        NotificationUtils.notifyUserOfWatchlistedPackageChanges(this);
 
     }
 

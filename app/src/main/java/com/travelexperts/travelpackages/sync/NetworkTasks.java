@@ -43,7 +43,6 @@ public class NetworkTasks {
             int customerId = extras.getInt(CUSTOMER_ID_KEY);
             getCustomerFromNetwork(context, customerId);
         }
-
     }
 
     public static void getCustomerFromNetwork(final Context context, int customerId) {
