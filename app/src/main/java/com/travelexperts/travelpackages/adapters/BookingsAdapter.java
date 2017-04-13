@@ -33,6 +33,7 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
     public void swapBookings(List<Booking> newBookings){
         mBookings = newBookings;
         notifyDataSetChanged();
+
     }
 
     public BookingsAdapter(Context context, List<Booking> bookings, OnBookingClickListener
@@ -59,6 +60,9 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
 
     @Override
     public int getItemCount() {
+        if(mBookings == null){
+            return 0;
+        }
         return mBookings.size();
     }
 

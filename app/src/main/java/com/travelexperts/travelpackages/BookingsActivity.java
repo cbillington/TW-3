@@ -11,9 +11,14 @@ import android.view.View;
 
 import com.travelexperts.travelpackages.network.Booking;
 import com.travelexperts.travelpackages.network.Customer;
+import com.travelexperts.travelpackages.network.RestClient;
 import com.travelexperts.travelpackages.utils.PreferenceUtils;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BookingsActivity extends AppCompatActivity {
 
@@ -30,10 +35,9 @@ public class BookingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-        mCustomer = PreferenceUtils.getCustomer(this);
-        mBookings = mCustomer.getBookings();
 
-        Log.d("hello", String.valueOf(mBookings.size()));
+
+
     }
 
     @Override

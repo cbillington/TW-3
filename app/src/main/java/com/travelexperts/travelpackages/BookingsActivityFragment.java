@@ -1,5 +1,8 @@
 package com.travelexperts.travelpackages;
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -14,23 +17,30 @@ import com.travelexperts.travelpackages.adapters.BookingsAdapter;
 import com.travelexperts.travelpackages.adapters.OnBookingClickListener;
 import com.travelexperts.travelpackages.network.Booking;
 import com.travelexperts.travelpackages.network.Customer;
+import com.travelexperts.travelpackages.network.RestClient;
+import com.travelexperts.travelpackages.sync.NetworkTasks;
 import com.travelexperts.travelpackages.utils.PreferenceUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * A placeholder fragment containing a simple view.
  */
-public class BookingsActivityFragment extends Fragment implements OnBookingClickListener {
+public class BookingsActivityFragment extends Fragment implements OnBookingClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Customer mCustomer;
     private List<Booking> mBookings;
     private RecyclerView mBookingsRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private List<Booking> mBookingsSortedByDate;
-
+    private BookingsAdapter mBookingsAdapter;
+    private ProgressDialog progress;
     public BookingsActivityFragment() {
     }
 
@@ -39,9 +49,18 @@ public class BookingsActivityFragment extends Fragment implements OnBookingClick
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_bookings, container, false);
 
-        mCustomer = PreferenceUtils.getCustomer(getActivity());
-        mBookings = mCustomer.getBookings();
-        mBookingsSortedByDate = sortByDate(mBookings);
+        RestClient newClient = new RestClient();
+
+        progress = new ProgressDialog(getContext());
+        progress.setMessage("Booking package...");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.show();
+        NetworkTasks.getCustomerFromNetwork(getActivity(), 143);
+
+
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .registerOnSharedPreferenceChangeListener(this);
 
         mBookingsRecyclerView = (RecyclerView)rootView.findViewById(R.id.rv_bookings);
         mBookingsRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
@@ -49,7 +68,8 @@ public class BookingsActivityFragment extends Fragment implements OnBookingClick
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mBookingsRecyclerView.setLayoutManager(mLayoutManager);
-        mBookingsRecyclerView.setAdapter(new BookingsAdapter(getActivity(), mBookings, this));
+        mBookingsAdapter = new BookingsAdapter(getActivity(), null, this);
+        mBookingsRecyclerView.setAdapter(mBookingsAdapter);
 
 
 
@@ -79,5 +99,16 @@ public class BookingsActivityFragment extends Fragment implements OnBookingClick
     @Override
     public void onBookingClicked(int bookingId) {
         Log.d("hello", "booking id: " + bookingId);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(PreferenceUtils.KEY_CUSTOMER)){
+            mCustomer = PreferenceUtils.getCustomer(getActivity());
+            mBookings = mCustomer.getBookings();
+            mBookingsSortedByDate = sortByDate(mBookings);
+            mBookingsAdapter.swapBookings(mBookingsSortedByDate);
+            progress.dismiss();
+        }
     }
 }

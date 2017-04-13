@@ -2,11 +2,13 @@ package com.travelexperts.travelpackages.sync;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.travelexperts.travelpackages.data.PackagesContract;
+import com.travelexperts.travelpackages.data.PackagesDbHelper;
 import com.travelexperts.travelpackages.network.CallbackUtils;
 import com.travelexperts.travelpackages.network.Customer;
 import com.travelexperts.travelpackages.network.IRestCallback;
@@ -86,14 +88,17 @@ public class NetworkTasks {
                 List<Package> packages = pw.getItems();
                 Log.d("hello", String.valueOf(packages.size()));
                 ContentValues [] contentValues = new ContentValues[packages.size()];
-
+                PackagesDbHelper dbHelper = new PackagesDbHelper(context);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                db.execSQL("DELETE FROM " + PackagesContract.PackageEntry.TABLE_NAME);
                 for(int i = 0; i < packages.size(); i++){
+                    Log.d("hello", packages.get(i).toString());
                     contentValues[i] = packages.get(i).getContentValues();
                 }
 
                 int numRowsInserted = context.getContentResolver().bulkInsert(PackagesContract.PackageEntry
                         .CONTENT_URI, contentValues);
-                Log.d("hello", String.valueOf(numRowsInserted));
+                Log.d("rows inserted", String.valueOf(numRowsInserted));
 
             }
         };

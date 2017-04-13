@@ -46,7 +46,7 @@ public class popular_tab extends Fragment{
         mPackagesAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mPackagesAdapter);
 
-        mPackagesObserver = new PackagesContentObserver(new Handler(), mPackagesAdapter, mContext);
+
         mContext.getContentResolver().registerContentObserver(PackagesContract.PackageEntry
                         .CONTENT_URI,
                 true,

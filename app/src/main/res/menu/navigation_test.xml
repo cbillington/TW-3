@@ -17,15 +17,15 @@
         android:icon="@drawable/ic_view_module_white_24dp">
 
         <menu>
-            <group android:checkableBehavior="all">
+            <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/action_sort_date"
                     android:title="Date"
-                    android:checkable="true"
-                    android:checked="true"/>
+                    android:checkable="true"/>
                 <item
                     android:id="@+id/action_sort_price"
-                    android:title="Price"/>
+                    android:title="Price"
+                    android:checkable="true"/>
             </group>
         </menu>
     </item>

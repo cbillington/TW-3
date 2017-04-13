@@ -3,6 +3,8 @@ package com.travelexperts.travelpackages.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import com.travelexperts.travelpackages.data.PackagesContract.*;
 
 /**
@@ -13,7 +15,7 @@ public class PackagesDbHelper extends SQLiteOpenHelper {
 
     private static String DATABASE_NAME = "travelexperts.db";
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     public PackagesDbHelper(Context context) {
@@ -50,6 +52,7 @@ public class PackagesDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d("hello", "upgrade fired");
         db.execSQL("DROP TABLE IF EXISTS " + PackageEntry.TABLE_NAME);
         onCreate(db);
     }
@@ -64,6 +67,7 @@ public class PackagesDbHelper extends SQLiteOpenHelper {
         StringBuilder sb = new StringBuilder("CREATE TABLE ").append(PackageEntry.TABLE_NAME)
                 .append(" (")
                 .append(PackageEntry._ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT,")
+                .append(PackageEntry.COLUMN_PACKAGE_ID).append(" INTEGER, ")
                 .append(PackageEntry.COLUMN_PACKAGE_NAME).append(" TEXT, ")
                 .append(PackageEntry.COLUMN_PACKAGE_START_DATE).append(" INTEGER, ")
                 .append(PackageEntry.COLUMN_PACKAGE_END_DATE).append(" TEXT, ")

@@ -21,4 +21,11 @@ public interface IRestEndpoint {
     Call<Customer> updateCustomer(@Header("Content-Type")String contentType, @Body Customer
             customerToUpdate);
 
+    @POST("bookings")
+    Call<Booking> insertNewBooking(@Header("Content-Type")String contentType, @Body Booking
+            bookingToInsert);
+
+    @POST("packages/watchlist")
+    Call<AddWatchlistedPackage> incrementWatchlist(@Header("Content-Type")String contentType, @Body
+            AddWatchlistedPackage awp);
 }

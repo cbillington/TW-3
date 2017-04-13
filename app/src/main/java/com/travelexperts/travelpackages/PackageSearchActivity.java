@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +41,7 @@ import android.widget.Toast;
 
 import com.travelexperts.travelpackages.adapters.PackagesAdapter;
 import com.travelexperts.travelpackages.data.PackagesContract;
+import com.travelexperts.travelpackages.data.PackagesDbHelper;
 import com.travelexperts.travelpackages.fragments.DatePickerDialogFragment;
 import com.travelexperts.travelpackages.sync.PackagesContentObserver;
 import com.travelexperts.travelpackages.utils.CurrencyTextWatcher;
@@ -131,11 +133,12 @@ public class PackageSearchActivity extends AppCompatActivity implements DatePick
         mPackagesAdapter.setHasStableIds(true);
         mPackagesSearchRecyclerView.setAdapter(mPackagesAdapter);
 
-        mPackagesObserver = new PackagesContentObserver(new Handler(), mPackagesAdapter, mContext);
+
+        /*mPackagesObserver = new PackagesContentObserver(new Handler(), mPackagesAdapter, this);
         mContext.getContentResolver().registerContentObserver(PackagesContract.PackageEntry
                         .CONTENT_URI,
                 true,
-                mPackagesObserver);
+                mPackagesObserver);*/
 
         Log.d("hello", "count in search cursor: " + mPackagesCursor.getCount());
     }
@@ -199,11 +202,14 @@ public class PackageSearchActivity extends AppCompatActivity implements DatePick
         // destination query
         String destinationQuery = String.valueOf(mAutoCompleteTextView.getText());
         Log.d("hello", "destination query: " + destinationQuery);
+        if(destinationQuery.isEmpty()){
+            destinationQuery = "asdfasdfasdfa";
+        }
 
         // start date query
         Long startDateInMilli;
         if (mStartDateCalendar == null){
-            startDateInMilli = 12334534564356345L;
+            startDateInMilli = 123345345643563455L;
         }
         else{
             startDateInMilli = mStartDateCalendar.getTimeInMillis();
@@ -216,10 +222,10 @@ public class PackageSearchActivity extends AppCompatActivity implements DatePick
         String priceQuery;
 
         if (priceQueryWithCurrencySymbol.isEmpty()){
-            priceQuery = "0";
+            priceQuery = "43523523523";
         }
         else{
-            priceQuery = priceQueryWithCurrencySymbol.substring(1);
+            priceQuery = priceQueryWithCurrencySymbol.trim().substring(1);
         }
 
         Log.d("hello", "price query: " + priceQuery);
@@ -232,8 +238,14 @@ public class PackageSearchActivity extends AppCompatActivity implements DatePick
                         (startDateInMilli)
                 , priceQuery);
 
-        getSupportLoaderManager().restartLoader(PackageLoaderUtils.QUERY_PACKAGES_LOADER_ID,
-                bundleToPassToLoader, this);
+        /*getSupportLoaderManager().restartLoader(PackageLoaderUtils.QUERY_PACKAGES_LOADER_ID,
+                bundleToPassToLoader, this);*/
+        PackagesDbHelper dbHelper = new PackagesDbHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery("select * from packages where PkgName LIKE ? AND PkgBasePrice <= " +
+                "?", new String[]{destinationQuery, priceQuery});
+
+        mPackagesAdapter.swapCursor(c);
 
     }
 

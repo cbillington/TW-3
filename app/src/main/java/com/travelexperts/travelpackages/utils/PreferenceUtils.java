@@ -3,6 +3,7 @@ package com.travelexperts.travelpackages.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -119,7 +120,39 @@ public final class PreferenceUtils {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        Log.d("watchlist string", watchlistedPackagesString);
+        editor.putString(KEY_WATCHLISTED_PACKAGES, watchlistedPackagesString);
+        editor.apply();
 
+    }
+
+    public static void removePackageFromWatchlist(Package packageToRemove, Context context){
+        ObjectMapper objectMapper = new ObjectMapper();
+        WatchlistedPackages watchlistedPackages = null;
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        String watchListedPackagesJson = sp.getString(KEY_WATCHLISTED_PACKAGES, sDefaultWatchlistPackageJsonString);
+
+        try{
+            watchlistedPackages = objectMapper.readValue(watchListedPackagesJson, WatchlistedPackages
+                    .class);
+
+            // append the new package
+            watchlistedPackages.remove(packageToRemove);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+        // re-add the wathclistedpackages object to preferences
+        SharedPreferences.Editor editor = sp.edit();
+        String watchlistedPackagesString = null;
+        try {
+            watchlistedPackagesString = objectMapper.writeValueAsString(watchlistedPackages);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        Log.d("watchlist string", watchlistedPackagesString);
         editor.putString(KEY_WATCHLISTED_PACKAGES, watchlistedPackagesString);
         editor.apply();
 

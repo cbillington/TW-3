@@ -2,7 +2,8 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.travelexperts.travelpackages.fragments.PopularPackagesFragment">
+             tools:context="com.travelexperts.travelpackages.fragments.PopularPackagesFragment"
+                android:background="#E0E0E0">
 
 
     <android.support.v7.widget.RecyclerView

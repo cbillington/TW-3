@@ -1,8 +1,8 @@
+
+
 package com.travelexperts.travelpackages.network;
-import com.travelexperts.travelpackages.data.PackagesContract;
+
 import android.content.ContentValues;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.travelexperts.travelpackages.data.PackagesContract;
 
-
-// TODO: refactor to include products.
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "packageId",
@@ -23,9 +22,24 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "pkgEndDate",
         "pkgDesc",
         "pkgBasePrice",
-        "pkgAgencyCommission"
+        "pkgAgencyCommission",
+        "pkgImgUrl"
 })
-public class Package implements Parcelable {
+public class Package {
+    @Override
+    public String toString() {
+        return "Package{" +
+                "packageId=" + packageId +
+                ", pkgName='" + pkgName + '\'' +
+                ", pkgStartDate=" + pkgStartDate +
+                ", pkgEndDate=" + pkgEndDate +
+                ", pkgDesc='" + pkgDesc + '\'' +
+                ", pkgBasePrice=" + pkgBasePrice +
+                ", pkgAgencyCommission=" + pkgAgencyCommission +
+                ", pkgImgUrl='" + pkgImgUrl + '\'' +
+                ", additionalProperties=" + additionalProperties +
+                '}';
+    }
 
     @JsonProperty("packageId")
     private Integer packageId;
@@ -41,10 +55,23 @@ public class Package implements Parcelable {
     private Double pkgBasePrice;
     @JsonProperty("pkgAgencyCommission")
     private Double pkgAgencyCommission;
+    @JsonProperty("pkgImgUrl")
+    private String pkgImgUrl;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Package() {
+    @JsonIgnore
+    public ContentValues getContentValues(){
+        ContentValues rowToReturn = new ContentValues();
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_ID, getPackageId());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, getPkgName());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, getPkgStartDate());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, getPkgEndDate());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, getPkgDesc());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, getPkgBasePrice());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, getPkgAgencyCommission());
+        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_IMAGE_URL, getPkgImgUrl());
+        return rowToReturn;
     }
 
     @JsonProperty("packageId")
@@ -117,6 +144,16 @@ public class Package implements Parcelable {
         this.pkgAgencyCommission = pkgAgencyCommission;
     }
 
+    @JsonProperty("pkgImgUrl")
+    public String getPkgImgUrl() {
+        return pkgImgUrl;
+    }
+
+    @JsonProperty("pkgImgUrl")
+    public void setPkgImgUrl(String pkgImgUrl) {
+        this.pkgImgUrl = pkgImgUrl;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -126,95 +163,6 @@ public class Package implements Parcelable {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
-    @Override
-    public String toString() {
-        return "Package{" +
-                "packageId=" + packageId +
-                ", pkgName='" + pkgName + '\'' +
-                ", pkgStartDate=" + pkgStartDate +
-                ", pkgEndDate=" + pkgEndDate +
-                ", pkgDesc='" + pkgDesc + '\'' +
-                ", pkgBasePrice=" + pkgBasePrice +
-                ", pkgAgencyCommission=" + pkgAgencyCommission +
-                '}';
-    }
-
-    @JsonIgnore
-    public ContentValues getContentValues(){
-        ContentValues rowToReturn = new ContentValues();
-        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_NAME, getPkgName());
-        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_START_DATE, getPkgStartDate());
-        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_END_DATE, getPkgEndDate());
-        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_DESCRIPTION, getPkgDesc());
-        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_BASE_PRICE, getPkgBasePrice());
-        rowToReturn.put(PackagesContract.PackageEntry.COLUMN_PACKAGE_AGENCY_COMMISSION, getPkgAgencyCommission());
-        return rowToReturn;
-    }
-
-    protected Package(Parcel in) {
-        packageId = in.readByte() == 0x00 ? null : in.readInt();
-        pkgName = in.readString();
-        pkgStartDate = in.readByte() == 0x00 ? null : in.readLong();
-        pkgEndDate = in.readByte() == 0x00 ? null : in.readLong();
-        pkgDesc = in.readString();
-        pkgBasePrice = in.readByte() == 0x00 ? null : in.readDouble();
-        pkgAgencyCommission = in.readByte() == 0x00 ? null : in.readDouble();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (packageId == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(packageId);
-        }
-        dest.writeString(pkgName);
-        if (pkgStartDate == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeLong(pkgStartDate);
-        }
-        if (pkgEndDate == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeLong(pkgEndDate);
-        }
-        dest.writeString(pkgDesc);
-        if (pkgBasePrice == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeDouble(pkgBasePrice);
-        }
-        if (pkgAgencyCommission == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeDouble(pkgAgencyCommission);
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Package> CREATOR = new Parcelable.Creator<Package>() {
-        @Override
-        public Package createFromParcel(Parcel in) {
-            return new Package(in);
-        }
-
-        @Override
-        public Package[] newArray(int size) {
-            return new Package[size];
-        }
-    };
 
     @Override
     public boolean equals(Object o) {

@@ -227,7 +227,7 @@ public class PackagesProvider extends ContentProvider {
         }
 
         getContext().getContentResolver().notifyChange(uri, null);
-        db.close();
+
         return numRowsInserted;
     }
 }

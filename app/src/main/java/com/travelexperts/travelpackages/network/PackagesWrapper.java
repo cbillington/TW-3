@@ -1,3 +1,4 @@
+
 package com.travelexperts.travelpackages.network;
 
 import java.util.HashMap;
@@ -40,6 +41,5 @@ public class PackagesWrapper {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 
 }

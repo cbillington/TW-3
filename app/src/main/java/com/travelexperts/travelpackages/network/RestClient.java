@@ -1,5 +1,7 @@
 package com.travelexperts.travelpackages.network;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import retrofit2.Retrofit;
@@ -13,7 +15,7 @@ import retrofit2.Retrofit;
 public class RestClient {
 
     // base Url for rest api
-    private static final String BASE_URL_STRING = "http:10.0.2.2:8080/api/";
+    private static final String BASE_URL_STRING = "http://9427b667.ngrok.io/api/";
     // instance of the interface required for Retrofit -- used to define your path calls.
     private IRestEndpoint iRestEndpoint;
 
@@ -34,6 +36,7 @@ public class RestClient {
 
     // getter for the rest endpoint interface.
     public IRestEndpoint getApiService(){
+        Log.d("rest client made", "rest client made");
         return iRestEndpoint;
     }
 

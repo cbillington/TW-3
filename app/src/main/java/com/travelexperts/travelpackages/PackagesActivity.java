@@ -101,7 +101,7 @@ public class PackagesActivity extends AppCompatActivity
         mPackagesAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mPackagesAdapter);
 
-        mPackagesObserver = new PackagesContentObserver(new Handler(), mPackagesAdapter, this);
+
         mContext.getContentResolver().registerContentObserver(PackagesContract.PackageEntry
                         .CONTENT_URI,
                 true,

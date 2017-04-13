@@ -5,6 +5,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.travelexperts.travelpackages.adapters.PackagesAdapter;
@@ -19,6 +20,7 @@ public class PackagesContentObserver extends ContentObserver {
 
     private PackagesAdapter mPackagesAdapter;
     private Context mContextOfObserver;
+
     /**
      * Creates a content observer.
      *
@@ -30,6 +32,7 @@ public class PackagesContentObserver extends ContentObserver {
         super(handler);
         this.mContextOfObserver = context;
         this.mPackagesAdapter = packagesAdapter;
+
 
     }
 
@@ -47,7 +50,9 @@ public class PackagesContentObserver extends ContentObserver {
 
         //TODO: implement a switch statement to seperate calls to adapter based on Uri sent.
         //TODO: implement tests for each CRUD statement.
-        mPackagesAdapter.onPackageInserted(rows, uri);
+
+
     }
+
 
 }

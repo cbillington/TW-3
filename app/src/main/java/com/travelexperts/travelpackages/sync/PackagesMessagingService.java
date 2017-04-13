@@ -4,11 +4,14 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.travelexperts.travelpackages.utils.NotificationUtils;
 import com.travelexperts.travelpackages.utils.PreferenceUtils;
 import com.travelexperts.travelpackages.utils.WatchlistedPackages;
+import com.travelexperts.travelpackages.network.Package;
+import java.util.Map;
 
 /**
  * Created by 468364 on 4/10/2017.
@@ -27,9 +30,19 @@ public class PackagesMessagingService extends FirebaseMessagingService {
 
         WatchlistedPackages wp = PreferenceUtils.getWatchlistedPackages(this);
 
-        Log.d("hello", String.valueOf(wp.getItems().size()));
+        Map<String, String> data = remoteMessage.getData();
+        Log.d("hello", data.get("packageId"));
 
-        NotificationUtils.notifyUserOfWatchlistedPackageChanges(this);
+
+
+        Package packageToCheck = new Package();
+        packageToCheck.setPackageId(Integer.valueOf(data.get("packageId")));
+        if(wp.contains(packageToCheck)){
+            NotificationUtils.notifyUserOfWatchlistedPackageChanges(this, packageToCheck.getPackageId());
+        }
+
+        NetworkTasks.getPackagesFromNetwork(this);
+        super.onMessageReceived(remoteMessage);
 
     }
 

@@ -95,4 +95,10 @@ public class WatchlistedPackages {
         return packageIds;
     }
 
+    @Override
+    public String toString() {
+        return "WatchlistedPackages{" +
+                "items=" + items +
+                '}';
+    }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class PackageTabPagerAdapter extends FragmentPagerAdapter {
 
-    private List<Fragment> mFragments = new ArrayList<>(Arrays.asList(new PopularPackagesFragment(), new NewPackagesFragment(), new PopularPackagesFragment()));
+    private ArrayList<? extends Fragment> mFragments = new ArrayList<>(Arrays.asList(new PopularPackagesFragment(), new NewPackagesFragment(), new PopularPackagesFragment()));
 
     private List<String> mTitles = new ArrayList<>(Arrays.asList("Popular", "New", "All"));
 

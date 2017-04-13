@@ -7,7 +7,7 @@ import android.database.Cursor;
  */
 
 public interface OnPackagesSortedListener {
-    void OnPackagesSorted(Cursor newSortedPackages);
+    void OnPackagesSorted(Cursor packagesSorted);
 
 
 
